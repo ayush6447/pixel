@@ -74,6 +74,13 @@ When the ground truth doesn't exist, I build the thing that collects it. That's 
     text: `Short list, because I would rather go deep on a few problems than collect logos.`,
     timeline: [
       {
+        meta: '2025 — present',
+        title: 'Co-founder',
+        org: 'Ayuda',
+        detail:
+          'Building the product end to end — model, mobile client and the API between them.',
+      },
+      {
         meta: 'Jul 2026 — present',
         title: 'AI/ML and Full-stack Development Intern',
         org: 'Briskon Technologies Pvt Ltd · Remote',
@@ -94,7 +101,7 @@ When the ground truth doesn't exist, I build the thing that collects it. That's 
         detail: 'Design for campus events and community material.',
       },
     ],
-    chips: ['Applied ML', 'Full-stack', 'Public speaking', 'Public relations'],
+    chips: ['Product', 'Applied ML', 'Full-stack', 'Public speaking'],
   },
   {
     id: 'education',
