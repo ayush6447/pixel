@@ -35,7 +35,7 @@ type RoomState = {
 
 const Ctx = createContext<RoomState | null>(null);
 
-/** Ranchi is UTC+5:30. After 19:00 local the room loads dark. */
+/** Jamshedpur is UTC+5:30. After 19:00 local the room loads dark. */
 function isDarkOutside(): boolean {
   try {
     const hour = Number(

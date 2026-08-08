@@ -33,8 +33,8 @@ export default function Hud() {
       {/* Standing invitation. Steps aside while a tooltip is up. */}
       <div className={`hint${tip ? '' : ' is-on'}`}>
         {night
-          ? 'Night in Ranchi — the room is still open'
-          : 'Ranchi, 2026 — everything in this room opens'}
+          ? 'Night in Jamshedpur — the room is still open'
+          : 'Jamshedpur, 2026 — everything in this room opens'}
       </div>
 
       <div className="credit">© 2026 Ayush Kumar Singh</div>

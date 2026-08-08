@@ -21,7 +21,7 @@ const mono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: 'Ayush Kumar Singh — the room',
   description:
-    'A room in Ranchi. Everything in it opens something. Applied ML, Flutter, and the hardware that feeds them.',
+    'A room in Jamshedpur. Everything in it opens something. Applied ML, Flutter, and the hardware that feeds them.',
   openGraph: {
     title: 'Ayush Kumar Singh — the room',
     description: 'An interactive pixel-art portfolio. Every object opens a project.',
