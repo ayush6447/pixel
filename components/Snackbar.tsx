@@ -4,13 +4,14 @@ import { useEffect, useRef, useState } from 'react';
 import { useRoom } from '@/lib/room-context';
 
 /** how long it stays up before fading */
-const SHOW_MS = 2000;
+const SHOW_MS = 3500;
 /** matches the fade in globals.css */
 const FADE_MS = 300;
 
 /**
  * Announces the track when the speaker starts playing, then gets out of the
- * way. Two seconds, fade in, fade out.
+ * way. Long enough to actually read a title and an artist, which two seconds
+ * was not.
  *
  * Only fires on the off→on transition. Muting says nothing — you already
  * know what you just did, and a toast for it would be noise.

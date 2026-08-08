@@ -1,3 +1,5 @@
+import { toRuns } from '@/lib/pixel';
+
 /**
  * The spider mark, traced off assets/logo.png into a 34 x 43 pixel map and
  * drawn as rects rather than shipped as a bitmap. That way it inherits
@@ -54,25 +56,7 @@ const SPIDER = [
 
 const COLS = 34;
 const ROWS = SPIDER.length;
-
-/** Merges each row into horizontal runs, so 43 rows cost ~120 rects. */
-function runs(): { x: number; y: number; w: number }[] {
-  const out: { x: number; y: number; w: number }[] = [];
-  SPIDER.forEach((row, y) => {
-    let run = 0;
-    for (let x = 0; x <= COLS; x += 1) {
-      if (row[x] === '#') {
-        run += 1;
-        continue;
-      }
-      if (run) {
-        out.push({ x: x - run, y, w: run });
-        run = 0;
-      }
-    }
-  });
-  return out;
-}
+const RUNS = toRuns(SPIDER);
 
 export default function Logo({ className }: { className?: string }) {
   return (
@@ -84,7 +68,7 @@ export default function Logo({ className }: { className?: string }) {
       aria-hidden="true"
       focusable="false"
     >
-      {runs().map((r) => (
+      {RUNS.map((r) => (
         <rect key={`${r.y}-${r.x}`} x={r.x} y={r.y} width={r.w} height={1} />
       ))}
     </svg>

@@ -1,22 +1,32 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { textMap, toRuns } from '@/lib/pixel';
 
 /** how long the bar takes to fill */
-const LOAD_MS = 3000;
+const LOAD_MS = 2500;
 /** fade-out after the bar completes */
-const FADE_MS = 450;
+const FADE_MS = 400;
 /** cells in the progress bar; each lights LOAD_MS / CELLS apart */
-const CELLS = 12;
+const CELLS = 10;
+
+const WORD = textMap('LOADING');
+const WORD_RUNS = toRuns(WORD);
+const WORD_COLS = WORD[0].length;
+const WORD_ROWS = WORD.length;
 
 /**
- * Boot screen: a little pixel window that fills a segmented bar and gets out
- * of the way.
+ * Boot screen: a pixel window that fills a segmented bar and gets out of
+ * the way.
  *
- * It renders on the server too, so the very first paint is the loader rather
- * than a flash of the room. The backdrop is a fixed dark colour rather than
- * a theme token on purpose — night mode is decided in an effect after mount,
- * and a themed backdrop would visibly flip colour mid-load.
+ * LOADING is drawn from a 5x7 bitmap font rather than set in a typeface —
+ * at this size a real font antialiases into grey mush against the dark
+ * panel, and the whole point is that it reads as pixels.
+ *
+ * It renders on the server too, so the very first paint is the loader
+ * rather than a flash of the room. The backdrop is a fixed dark colour
+ * rather than a theme token on purpose: night mode is decided in an effect
+ * after mount, and a themed backdrop would visibly flip colour mid-load.
  */
 export default function Loader() {
   const [done, setDone] = useState(false);
@@ -51,7 +61,30 @@ export default function Loader() {
         </div>
 
         <div className="loader__body">
-          <p className="loader__text">LOADING...</p>
+          <div className="loader__word">
+            <svg
+              viewBox={`0 0 ${WORD_COLS} ${WORD_ROWS}`}
+              shapeRendering="crispEdges"
+              aria-hidden="true"
+              focusable="false"
+            >
+              {WORD_RUNS.map((r) => (
+                <rect
+                  key={`${r.y}-${r.x}`}
+                  x={r.x}
+                  y={r.y}
+                  width={r.w}
+                  height={1}
+                />
+              ))}
+            </svg>
+            <span className="loader__dots" aria-hidden="true">
+              <i />
+              <i />
+              <i />
+            </span>
+          </div>
+
           {/* One element per cell rather than a gradient: the cells then
               divide the track exactly at any width, instead of the last one
               being sliced in half on a size the pitch doesn't divide. */}
