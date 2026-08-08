@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 
-/** Wall clock in Ranchi. Empty string on the server so hydration matches. */
+/** Wall clock in Jamshedpur. Empty string on the server so hydration matches. */
 export function useIstClock(): string {
   const [time, setTime] = useState('');
 

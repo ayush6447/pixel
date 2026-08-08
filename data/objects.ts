@@ -1,12 +1,6 @@
 import type { Entry } from '@/lib/types';
 
-/**
- * Everything in the room that isn't a book.
- *
- * TODO — the four CV entries below (experience, education, certifications,
- * achievements) are scaffolding with placeholder rows. Replace the marked
- * values with real ones before this goes anywhere public.
- */
+/** Everything in the room that isn't a book. */
 export const OBJECTS: Entry[] = [
   {
     id: 'about',
@@ -80,28 +74,27 @@ When the ground truth doesn't exist, I build the thing that collects it. That's 
     text: `Short list, because I would rather go deep on a few problems than collect logos.`,
     timeline: [
       {
-        meta: '2025 — present',
-        title: 'Co-founder',
-        org: 'Ayuda',
+        meta: 'Jul 2026 — present',
+        title: 'AI/ML and Full-stack Development Intern',
+        org: 'Briskon Technologies Pvt Ltd · Remote',
         detail:
-          'Building the product end to end — model, mobile client and the API between them.',
+          'Internship. Applied ML alongside the web work that has to carry it.',
       },
       {
-        // TODO: replace with a real role
-        meta: '2025',
-        title: 'ML Intern — TODO',
-        org: 'TODO: company',
-        detail: 'TODO: one line on what you actually shipped there.',
+        meta: 'Sep 2025 — present',
+        title: 'Media Team Member',
+        org: 'Google Developer Group on Campus, ITER',
+        detail:
+          'Media and management teams — organising events, handling creative media, and supporting community operations.',
       },
       {
-        // TODO: replace with a real role
-        meta: '2024',
-        title: 'Freelance — TODO',
-        org: 'TODO: client',
-        detail: 'TODO: what you built and what it was for.',
+        meta: 'Mar 2025 — Sep 2025',
+        title: 'Design Team Member',
+        org: 'Google Developer Group on Campus, ITER',
+        detail: 'Design for campus events and community material.',
       },
     ],
-    chips: ['Applied ML', 'Flutter', 'FastAPI', 'Product'],
+    chips: ['Applied ML', 'Full-stack', 'Public speaking', 'Public relations'],
   },
   {
     id: 'education',
@@ -110,43 +103,71 @@ When the ground truth doesn't exist, I build the thing that collects it. That's 
     meta: 'Computer science',
     timeline: [
       {
-        // TODO: replace with your institute and years
-        meta: 'TODO: 20XX — 20XX',
-        title: 'B.Tech, Computer Science & Engineering',
-        org: 'TODO: institute',
-        detail: 'TODO: coursework, thesis or anything worth naming.',
+        meta: 'Sep 2024 — Sep 2028',
+        title: 'B.Tech, Computer Science',
+        org: "Siksha 'O' Anusandhan University",
+        detail: 'Coursework carrying the Python and SQL side of everything here.',
       },
       {
-        // TODO: replace with your school and years
-        meta: 'TODO: 20XX',
-        title: 'Class XII — Science',
-        org: 'TODO: school, Ranchi',
-        detail: 'TODO: board and result.',
+        meta: 'Jun 2022 — May 2024',
+        title: 'Class XII, CBSE — first division',
+        org: 'DAV Public School, Bistupur, Jamshedpur',
+      },
+      {
+        meta: '2010 — May 2022',
+        title: 'Class X, CBSE — first division',
+        org: 'Delhi Public School, Jamshedpur',
       },
     ],
+    chips: ['Python', 'SQL', 'Photography'],
   },
   {
     id: 'certifications',
     kind: 'Certifications',
     title: 'Certifications',
     meta: 'Signed, dated, still useful',
-    text: `Kept short on purpose — only the ones whose material I actually use.`,
+    text: `Only the ones whose material I actually use.`,
     timeline: [
       {
-        // TODO: replace with a real certificate
-        meta: 'TODO: 20XX',
-        title: 'TODO: certificate name',
-        org: 'TODO: issuer',
-        detail: 'TODO: what it covered.',
+        meta: 'Mar 2026',
+        title: 'AI Fluency: Framework & Foundations',
+        org: 'Anthropic',
       },
       {
-        // TODO: replace with a real certificate
-        meta: 'TODO: 20XX',
-        title: 'TODO: certificate name',
-        org: 'TODO: issuer',
-        detail: 'TODO: what it covered.',
+        meta: 'Jun 2025',
+        title: 'Elysium Volunteer Certificate',
+        org: 'Google Developer Group on Campus, ITER',
+      },
+      {
+        meta: 'Mar 2025',
+        title: 'Google AI Essentials',
+        org: 'Google',
+        detail: 'Artificial intelligence, large language models.',
+      },
+      {
+        meta: 'Jan 2025',
+        title: 'Career Essentials in Generative AI',
+        org: 'Microsoft and LinkedIn',
+        detail: 'Generative AI, computer ethics.',
+      },
+      {
+        meta: 'Dec 2024',
+        title: 'Supervised Machine Learning: Regression and Classification',
+        org: 'DeepLearning.AI · Coursera',
+      },
+      {
+        meta: 'Dec 2024',
+        title: 'Prompt Design in Vertex AI',
+        org: 'Google Cloud',
+      },
+      {
+        meta: 'Dec 2024',
+        title: 'Data Visualisation: Empowering Business with Effective Insights',
+        org: 'Tata Group job simulation · Forage',
+        detail: 'Power BI, data visualisation.',
       },
     ],
+    chips: ['Machine learning', 'Generative AI', 'Vertex AI', 'Power BI'],
   },
   {
     id: 'achievements',
@@ -155,21 +176,17 @@ When the ground truth doesn't exist, I build the thing that collects it. That's 
     meta: 'Competitions, recognitions, shipped work',
     timeline: [
       {
-        // TODO: replace with a real placing
-        meta: 'TODO: 20XX',
-        title: 'TODO: hackathon or competition',
-        org: 'TODO: organiser',
-        detail: 'TODO: what you built and where you placed.',
+        meta: 'Jan 2026',
+        title: '24-Hour Hackathon',
+        org: 'XIM University',
       },
       {
-        // TODO: replace with a real recognition
-        meta: 'TODO: 20XX',
-        title: 'TODO: award or recognition',
-        org: 'TODO: awarding body',
-        detail: 'TODO: what it was for.',
+        meta: 'Dec 2025',
+        title: 'Ideathon — runner-up',
+        org: 'IEEE CTSoc, KIIT Student Branch Chapter',
       },
     ],
-    chips: ['TODO: fill these in'],
+    chips: ['Hackathons', 'Ideathons'],
   },
   {
     id: 'racing',
