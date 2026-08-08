@@ -770,6 +770,132 @@ body.night .mark {
 }
 
 /* ============================================================
+   LOADER
+   Pixel boot window. Sits above every other layer, including
+   the scrim and the panels, and takes itself down after the
+   bar fills. Duration is mirrored by LOAD_MS in Loader.tsx.
+   ============================================================ */
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  /* fixed, not a theme token: night mode resolves after mount and a
+     themed backdrop would flip colour halfway through the load */
+  background: #12151b;
+  transition: opacity 0.45s ease, visibility 0.45s;
+}
+.loader.is-done {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader__win {
+  width: min(30rem, calc(100vw - 3rem));
+  background: #171b22;
+  border: 3px solid var(--bone);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+
+.loader__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.45rem 0.6rem 0.45rem 0.85rem;
+  border-bottom: 3px solid var(--bone);
+}
+.loader__title {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+.loader__controls {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+/* drawn rather than typed, so they stay crisp and need no glyph coverage */
+.ctl {
+  display: block;
+  background: var(--bone);
+}
+.ctl--min {
+  width: 11px;
+  height: 3px;
+}
+.ctl--max {
+  width: 12px;
+  height: 11px;
+  background: none;
+  border: 3px solid var(--bone);
+}
+.ctl--close {
+  width: 13px;
+  height: 13px;
+  background: none;
+  position: relative;
+}
+.ctl--close::before,
+.ctl--close::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: -1px;
+  width: 15px;
+  height: 3px;
+  background: var(--bone);
+}
+.ctl--close::before {
+  transform: rotate(45deg);
+}
+.ctl--close::after {
+  transform: rotate(-45deg);
+}
+
+.loader__body {
+  padding: 2.4rem 1.6rem 2.2rem;
+}
+.loader__text {
+  margin: 0 0 1.2rem;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: clamp(1.5rem, 5vw, 2.25rem);
+  letter-spacing: 0.16em;
+  color: var(--bone);
+}
+
+.loader__track {
+  display: flex;
+  gap: 5px;
+  height: 28px;
+  padding: 4px;
+  border: 3px solid var(--bone);
+}
+/* Cells flex, so twelve of them divide any track width exactly. Each waits
+   out its own delay and then snaps on — no partial block, ever. */
+.loader__cell {
+  flex: 1;
+  background: transparent;
+  animation: cellOn 1ms steps(1, end) forwards;
+}
+@keyframes cellOn {
+  to {
+    background: var(--amber);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  /* the blanket duration override would empty the bar; show it filled */
+  .loader__cell {
+    animation: none;
+    background: var(--amber);
+  }
+}
+
+/* ============================================================
    BOOK SPREAD
    What a shelf book opens into. The right page swings out of the
    gutter on entry, which is what makes it read as a book rather
