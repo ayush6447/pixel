@@ -150,6 +150,22 @@ switched on in an effect. Keep that pattern — `reactStrictMode` is on and IST
   `predev` runs `scripts/clean-stale-build.mjs`, which deletes `.next` when it
   finds a `BUILD_ID` (only a production build leaves one), so the second case
   now self-heals. The first still requires stopping dev before you build.
+
+- **Never leave a dev server running at the end of a turn, and never run more
+  than one.** Every `next dev` on this project writes the same `.next`. Two or
+  more will corrupt each other, and the symptom is bewildering — a minified
+  `TypeError: e[o] is not a function` from `.next/server/webpack-runtime.js`
+  with `GET / 500`, which points at framework internals rather than at the
+  five servers quietly fighting over one directory.
+
+  On Windows `pkill -f "next dev"` **matches nothing** — the command line
+  isn't visible to it, so it exits 0 having killed nothing and you believe the
+  server is gone. Find them by port and kill by PID instead:
+
+  ```bash
+  netstat -ano | grep LISTENING | grep -E ":30[0-9][0-9]"
+  taskkill //F //PID <pid>
+  ```
 - CSS `transform` lengths on SVG elements resolve in *user units*, not screen
   pixels — that is why the music-note keyframes translate by room coordinates.
 - `assets/` holds the user's source media (the full-length mp3, a profile
