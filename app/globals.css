@@ -77,6 +77,29 @@ body {
   width: 100%;
   height: 100%;
   display: block;
+  /* The room is letterboxed by preserveAspectRatio="meet" on any window
+     whose aspect isn't 620:270. Letting the SVG paint outside its viewport
+     lets the bleed rects in <Shell> fill that gap, so the background always
+     reaches the edge. body has overflow:hidden, so nothing scrolls. */
+  overflow: visible;
+}
+
+/* ------------------------------------------------------------
+   PARALLAX
+   --mx / --my are unitless -1..1, written by hooks/useParallax
+   onto .stage. Transform lengths on SVG elements are user units,
+   so these numbers are room coordinates. The room leans *with*
+   the pointer; the shell trails the furniture, which is what
+   reads as depth.
+   ------------------------------------------------------------ */
+.layer {
+  transition: transform 0.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.layer--back {
+  transform: translate(calc(var(--mx, 0) * 3px), calc(var(--my, 0) * 2px));
+}
+.layer--front {
+  transform: translate(calc(var(--mx, 0) * 9px), calc(var(--my, 0) * 5px));
 }
 
 .s-wall { fill: var(--wall); }
@@ -95,9 +118,9 @@ body {
 .s-leaf { fill: var(--leaf); }
 .s-muted { fill: var(--muted); }
 
+/* size is set per book in scene/Book.tsx, scaled to fit the spine */
 .spine-label {
   font-family: var(--mono);
-  font-size: 5px;
   font-weight: 500;
   letter-spacing: 0.06em;
 }
@@ -133,6 +156,74 @@ body {
 @keyframes blink {
   0%, 55% { opacity: 1; }
   56%, 100% { opacity: 0; }
+}
+
+/* ------------------------------------------------------------
+   3D PRINTER
+   The head sweeps the rail; the part grows a layer at a time and
+   resets. Both are transforms in user units.
+   ------------------------------------------------------------ */
+.print-head {
+  animation: printHead 3.6s ease-in-out infinite alternate;
+}
+@keyframes printHead {
+  from { transform: translateX(-26px); }
+  to   { transform: translateX(26px); }
+}
+
+.print-part {
+  animation: printPart 9s steps(1) infinite;
+  transform-origin: 540px 193px;
+}
+@keyframes printPart {
+  0%   { transform: scaleY(0.1); }
+  25%  { transform: scaleY(0.35); }
+  50%  { transform: scaleY(0.6); }
+  75%  { transform: scaleY(0.85); }
+  90%, 100% { transform: scaleY(1); }
+}
+
+/* ------------------------------------------------------------
+   MUSIC NOTES
+   Drift out of the speaker while the ambient loop is playing.
+   Transform lengths on SVG elements are user units, so these
+   translate by room coordinates, not screen pixels.
+   ------------------------------------------------------------ */
+.notes {
+  pointer-events: none;
+}
+.note {
+  opacity: 0;
+}
+.notes.is-on .note--a {
+  animation: noteA 3.2s linear infinite;
+}
+.notes.is-on .note--b {
+  animation: noteB 3.9s linear infinite 1.1s;
+}
+.notes.is-on .note--c {
+  animation: noteC 3.5s linear infinite 2.1s;
+}
+
+/* They rise out of the compartment and drift right, clearing the shelf
+   board above the cabinet. */
+@keyframes noteA {
+  0%   { transform: translate(0, 0); opacity: 0; }
+  18%  { opacity: 0.95; }
+  70%  { opacity: 0.7; }
+  100% { transform: translate(11px, -26px); opacity: 0; }
+}
+@keyframes noteB {
+  0%   { transform: translate(0, 0); opacity: 0; }
+  18%  { opacity: 0.9; }
+  70%  { opacity: 0.6; }
+  100% { transform: translate(18px, -21px); opacity: 0; }
+}
+@keyframes noteC {
+  0%   { transform: translate(0, 0); opacity: 0; }
+  18%  { opacity: 0.85; }
+  70%  { opacity: 0.6; }
+  100% { transform: translate(5px, -28px); opacity: 0; }
 }
 
 /* ============================================================
@@ -173,6 +264,74 @@ body.fresh .pip {
 @keyframes pip {
   0%, 100% { opacity: 0; }
   45%, 60% { opacity: 0.9; }
+}
+
+/* ============================================================
+   TOOLTIP
+   Floats over the hovered object. Position comes from JS
+   (components/Tooltip.tsx).
+
+   Two variants. .tip--plain is the quiet outlined label every
+   object gets. .tip--pill is the amber callout with the pixel
+   notch, reserved for the speaker toggle, so the loud style
+   always means "this does something" rather than "this opens".
+   ============================================================ */
+.tip {
+  position: fixed;
+  z-index: 25;
+  max-width: min(20rem, calc(100vw - 2 * 12px));
+  font-family: var(--mono);
+  line-height: 1.3;
+  text-wrap: balance;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+.tip.is-on {
+  opacity: 1;
+  transform: none;
+}
+
+.tip--plain {
+  padding: 0.35rem 0.7rem;
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  color: var(--bone);
+  font-size: 0.6875rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.tip--pill {
+  padding: 0.5rem 0.85rem;
+  background: var(--panel);
+  border: 2px solid var(--amber);
+  border-radius: 7px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  color: #f2f0ea;
+  font-size: 0.8125rem;
+}
+
+/* stepped pixel arrow, 12x6 in 2px steps — pill only */
+.tip--pill::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: clamp(11px, var(--notch, 50%), calc(100% - 11px));
+  margin-left: -6px;
+  width: 12px;
+  height: 6px;
+  background: var(--amber);
+  clip-path: polygon(
+    0 0, 12px 0, 12px 2px, 10px 2px, 10px 4px, 8px 4px,
+    8px 6px, 4px 6px, 4px 4px, 2px 4px, 2px 2px, 0 2px
+  );
+}
+.tip--pill.is-below::after {
+  top: auto;
+  bottom: 100%;
+  transform: scaleY(-1);
 }
 
 /* ============================================================
@@ -225,7 +384,7 @@ body.night .mark {
   color: var(--muted);
 }
 
-.caption {
+.hint {
   position: fixed;
   left: 50%;
   bottom: 1.3rem;
@@ -239,10 +398,11 @@ body.night .mark {
   white-space: nowrap;
   pointer-events: none;
   padding: 0.45rem 0.9rem;
+  opacity: 0;
+  transition: opacity 0.25s ease;
 }
-.caption b {
-  color: var(--amber);
-  font-weight: 500;
+.hint.is-on {
+  opacity: 1;
 }
 
 .credit {
@@ -261,9 +421,12 @@ body.night .mark {
   .credit {
     display: none;
   }
-  .caption {
+  .hint {
     font-size: 0.625rem;
     letter-spacing: 0.1em;
+  }
+  .tip--pill {
+    font-size: 0.75rem;
   }
 }
 
@@ -316,25 +479,49 @@ body.night .mark {
   text-transform: uppercase;
   color: var(--amber);
 }
-.drawer__close {
+/* shared by both surfaces, so closing feels the same either way */
+.backbtn {
   all: unset;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
   font-family: var(--mono);
   font-size: 0.6875rem;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   color: var(--muted);
-  padding: 0.3rem 0.5rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid #2c3440;
+  border-radius: 999px;
+  padding: 0.4rem 0.85rem;
+  transition: color 0.18s ease, border-color 0.18s ease;
 }
-.drawer__close:hover {
+.backbtn:hover {
   color: #e8e6e0;
+  border-color: var(--amber);
 }
-.drawer__close:focus-visible {
+.backbtn:focus-visible {
   outline: 2px solid var(--amber);
   outline-offset: 2px;
 }
+
 .drawer__body {
   padding: 1.9rem 1.6rem 2.5rem;
   overflow-y: auto;
+}
+
+.drawer__head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.drawer__avatar {
+  flex: none;
+  width: 4.5rem;
+  height: 4.5rem;
+  object-fit: cover;
+  border: 1px solid #2c3440;
+  border-radius: 10px;
 }
 .drawer h2 {
   margin: 0 0 0.35rem;
@@ -372,6 +559,110 @@ body.night .mark {
   color: var(--muted);
   border: 1px solid #2c3440;
   padding: 0.3rem 0.55rem;
+}
+.chip--pill {
+  border-radius: 999px;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-size: 0.6875rem;
+  color: #d5d3cd;
+  padding: 0.3rem 0.7rem;
+}
+
+/* ------------------------------------------------------------
+   GROUPED CHIPS — the "What I work with" block
+   ------------------------------------------------------------ */
+.groups {
+  margin-top: 2rem;
+}
+.rule {
+  margin: 0 0 1.2rem;
+  padding-bottom: 0.5rem;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
+  color: #e8e6e0;
+  border-bottom: 2px solid var(--amber);
+  display: inline-block;
+}
+.groups__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+  gap: 1.4rem 1.2rem;
+}
+.groups__grid h4 {
+  margin: 0 0 0.55rem;
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.groups__grid .chips {
+  margin-top: 0;
+}
+
+/* ------------------------------------------------------------
+   TIMELINE — experience, education, certifications
+   ------------------------------------------------------------ */
+.timeline {
+  list-style: none;
+  margin: 1.8rem 0 0;
+  padding: 0;
+}
+.timeline li {
+  display: grid;
+  grid-template-columns: 8rem 1fr;
+  gap: 0 1rem;
+  padding: 1.1rem 0;
+  border-top: 1px solid #262c36;
+}
+.timeline__meta {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--amber);
+  padding-top: 0.2rem;
+}
+.timeline__body h3 {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 1.15rem;
+  line-height: 1.25;
+  color: #e8e6e0;
+}
+.timeline__body h3 a {
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid #333b47;
+}
+.timeline__body h3 a:hover {
+  color: var(--amber);
+  border-color: var(--amber);
+}
+.timeline__org {
+  display: block;
+  margin-top: 0.2rem;
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+.timeline__body p {
+  margin: 0.55rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 560px) {
+  .timeline li {
+    grid-template-columns: 1fr;
+    gap: 0.4rem;
+  }
 }
 
 .drawer a.out {
@@ -415,6 +706,151 @@ body.night .mark {
 }
 .linklist a:hover {
   color: var(--amber);
+}
+
+/* ============================================================
+   TERMINAL WINDOW
+   The monitor's surface. Centred over the screen it opens from,
+   with desktop-window chrome so it reads as a different kind of
+   thing to the sheet.
+   ============================================================ */
+.win {
+  position: fixed;
+  z-index: 31;
+  top: 50%;
+  left: 50%;
+  width: min(40rem, calc(100vw - 2rem));
+  max-height: min(38rem, calc(100vh - 3rem));
+  display: flex;
+  flex-direction: column;
+  background: #12151b;
+  border: 1px solid var(--amber);
+  border-radius: 10px;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6);
+  color: #d8d6d0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.97);
+  transition: opacity 0.28s ease, transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.win.is-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.win__bar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 0.7rem 0.6rem 0.9rem;
+  background: #1b1f27;
+  border-bottom: 1px solid #262c36;
+  border-radius: 9px 9px 0 0;
+}
+.win__lights {
+  display: flex;
+  gap: 0.4rem;
+}
+.win__lights i {
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: #39404c;
+}
+.win__lights i:first-child {
+  background: var(--amber);
+}
+
+.win__body {
+  padding: 1.4rem 1.5rem 1.6rem;
+  overflow-y: auto;
+}
+.win__term {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  line-height: 1.75;
+  color: #c8c7c1;
+  white-space: pre-wrap;
+}
+.win__term .c {
+  color: var(--amber);
+}
+.win__lead {
+  margin: 1.3rem 0 0;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  line-height: 1.7;
+  color: #d8d6d0;
+}
+.win__hint {
+  margin: 1.3rem 0 0.7rem;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
+  gap: 0.6rem;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.95rem 0.5rem;
+  border: 1px solid #2c3440;
+  border-radius: 8px;
+  text-decoration: none;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.06em;
+  transition: color 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+.card:hover {
+  color: var(--amber);
+  border-color: var(--amber);
+  background: rgba(233, 161, 59, 0.06);
+}
+.card:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+}
+
+.win__prompt {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 1.4rem 0 0;
+  font-family: var(--mono);
+  font-size: 0.8125rem;
+  color: var(--amber);
+}
+.caret {
+  width: 0.5rem;
+  height: 1rem;
+  background: var(--amber);
+  animation: blink 1.4s steps(1) infinite;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .term {

@@ -10,3 +10,6 @@ npm-debug.log*
 next-env.d.ts
 .vercel
 *.tsbuildinfo
+
+# raw source media — the served copies live in public/
+assets/

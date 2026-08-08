@@ -1,5 +1,7 @@
 'use client';
 
+import { useRef } from 'react';
+import { useParallax } from '@/hooks/useParallax';
 import Shell from './scene/Shell';
 import Bookshelf from './scene/Bookshelf';
 import Desk from './scene/Desk';
@@ -9,18 +11,25 @@ import Lamp from './scene/Lamp';
 import Portrait from './scene/Portrait';
 import ChessTable from './scene/ChessTable';
 import DeskItems from './scene/DeskItems';
+import Speaker from './scene/Speaker';
+import Printer from './scene/Printer';
 
 /**
- * The whole room lives on a 480 x 270 grid. Keep every coordinate an
+ * The whole room lives on a 620 x 270 grid. Keep every coordinate an
  * integer (or a clean half) so edges stay crisp when it scales up.
  *
- * Draw order is back to front: shell, glow, furniture, props.
+ * Draw order is back to front: shell, glow, furniture, props. The two
+ * <g class="layer"> wrappers are the parallax depth planes — the shell
+ * trails the furniture, so the room leans as the pointer moves.
  */
 export default function Room() {
+  const stage = useRef<HTMLDivElement>(null);
+  useParallax(stage);
+
   return (
-    <div className="stage">
+    <div className="stage" ref={stage}>
       <svg
-        viewBox="0 0 480 270"
+        viewBox="0 0 620 270"
         preserveAspectRatio="xMidYMid meet"
         shapeRendering="crispEdges"
         role="img"
@@ -39,23 +48,39 @@ export default function Room() {
             <stop offset="0%" stopColor="#E9A13B" stopOpacity=".7" />
             <stop offset="100%" stopColor="#E9A13B" stopOpacity="0" />
           </radialGradient>
-          <linearGradient id="dayG" x1="0" y1="0" x2="0" y2="1">
+          {/* userSpaceOnUse so the bleed in <Shell> can extend the rect
+              without stretching the falloff — above y=0 it just pads. */}
+          <linearGradient
+            id="dayG"
+            gradientUnits="userSpaceOnUse"
+            x1="0"
+            y1="0"
+            x2="0"
+            y2="120"
+          >
             <stop offset="0%" stopColor="#ffffff" stopOpacity=".5" />
             <stop offset="100%" stopColor="#ffffff" stopOpacity="0" />
           </linearGradient>
         </defs>
 
-        <Shell />
-        <ellipse id="lampGlow" cx={370} cy={104} rx={120} ry={86} fill="url(#lampG)" />
+        <g className="layer layer--back">
+          <Shell />
+          <ellipse id="lampGlow" cx={370} cy={104} rx={120} ry={86} fill="url(#lampG)" />
+        </g>
 
-        <Bookshelf />
-        <Lamp />
-        <Portrait />
-        <Desk />
-        <Monitor />
-        <DeskItems />
-        <Chair />
-        <ChessTable />
+        <g className="layer layer--front">
+          <Bookshelf />
+          <Lamp />
+          <Portrait />
+          <Desk />
+          <Monitor />
+          <DeskItems />
+          <Chair />
+          <ChessTable />
+          <Printer />
+          {/* last, so the music notes float over the shelf they rise out of */}
+          <Speaker />
+        </g>
       </svg>
     </div>
   );

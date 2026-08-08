@@ -1,4 +1,5 @@
 import Book from './Book';
+import ShelfItems from './ShelfItems';
 import { PROJECTS } from '@/data/projects';
 
 /**
@@ -27,15 +28,6 @@ export default function Bookshelf() {
         <rect x={36} y={210} width={164} height={1} />
       </g>
       <rect x={28} y={222} width={180} height={6} className="s-light" />
-
-      {/* speaker */}
-      <g>
-        <rect x={176} y={146} width={20} height={24} className="s-light" />
-        <rect x={178} y={148} width={16} height={20} className="s-dark" />
-        <circle cx={186} cy={160} r={5} className="s-amber" />
-        <circle cx={186} cy={160} r={2} className="s-dark" />
-        <rect x={181} y={151} width={10} height={2} className="s-mid" />
-      </g>
 
       {/* plant */}
       <g>
@@ -67,6 +59,8 @@ export default function Bookshelf() {
       {PROJECTS.map((book) => (
         <Book key={book.id} book={book} />
       ))}
+
+      <ShelfItems />
     </g>
   );
 }

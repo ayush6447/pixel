@@ -1,14 +1,17 @@
 'use client';
 
 import { useRoom } from '@/lib/room-context';
+import { useTip } from '@/lib/tip-store';
 import { useIstClock } from '@/hooks/useIstClock';
 
-const DEFAULT_DAY = 'Ranchi, 2026 — everything in this room opens';
-const DEFAULT_NIGHT = 'Night in Ranchi — the room is still open';
-
-/** Wordmark, clock, caption bar and credit. Everything outside the SVG. */
+/**
+ * Wordmark, clock, hint and credit. Everything outside the SVG except
+ * the tooltip, which lives in its own component because it has to
+ * position itself against a hotspot.
+ */
 export default function Hud() {
-  const { caption, night } = useRoom();
+  const { night } = useRoom();
+  const tip = useTip();
   const clock = useIstClock();
 
   return (
@@ -27,16 +30,11 @@ export default function Hud() {
         <span>{night ? 'Lights on' : 'Pull the cord'}</span>
       </div>
 
-      <div className="caption" aria-live="polite">
-        {caption ? (
-          <>
-            <b>▸</b> {caption}
-          </>
-        ) : night ? (
-          DEFAULT_NIGHT
-        ) : (
-          DEFAULT_DAY
-        )}
+      {/* Standing invitation. Steps aside while a tooltip is up. */}
+      <div className={`hint${tip ? '' : ' is-on'}`}>
+        {night
+          ? 'Night in Ranchi — the room is still open'
+          : 'Ranchi, 2026 — everything in this room opens'}
       </div>
 
       <div className="credit">© 2026 Ayush Kumar Singh</div>

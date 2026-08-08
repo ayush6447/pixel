@@ -1,24 +1,50 @@
 import type { Entry } from '@/lib/types';
 
-/** Everything in the room that isn't a book. */
+/**
+ * Everything in the room that isn't a book.
+ *
+ * TODO — the four CV entries below (experience, education, certifications,
+ * achievements) are scaffolding with placeholder rows. Replace the marked
+ * values with real ones before this goes anywhere public.
+ */
 export const OBJECTS: Entry[] = [
   {
     id: 'about',
     kind: 'About',
     title: 'Ayush Kumar Singh',
     meta: 'Ranchi, Jharkhand · India',
+    avatar: { src: '/pfp.jpg', alt: 'Ayush Kumar Singh' },
     text: `Computer science student, co-founder at Ayuda, and the person who built this room one rectangle at a time.
 
 My work keeps landing in the same place: software that has to be right about something physical. An embryo that will or won't implant. Air that is or isn't safe to breathe. A doorway that's actually there. Models get to be wrong on a benchmark; these don't.
 
 When the ground truth doesn't exist, I build the thing that collects it. That's usually where the hardware comes in.`,
-    chips: ['Applied ML', 'Flutter', 'Computer vision', 'Embedded'],
+    groupsTitle: 'What I work with',
+    groups: [
+      {
+        title: 'Machine learning',
+        items: ['PyTorch', 'TensorFlow Lite', 'Vision transformers', 'Grad-CAM'],
+      },
+      {
+        title: 'Computer vision',
+        items: ['OpenCV', 'C++', 'Kalman filter', 'HOG'],
+      },
+      {
+        title: 'Product',
+        items: ['Flutter', 'React 19', 'FastAPI', 'Express 5'],
+      },
+      {
+        title: 'Data & hardware',
+        items: ['MongoDB', 'Supabase', 'USB-C sensors', 'Embedded C'],
+      },
+    ],
   },
   {
     id: 'terminal',
     kind: 'Terminal',
     title: '$ whoami',
     meta: 'Standard output',
+    surface: 'terminal',
     term: [
       '$ whoami',
       'ayush kumar singh — cse student, ranchi',
@@ -32,9 +58,118 @@ When the ground truth doesn't exist, I build the thing that collects it. That's 
       '',
       '$ echo $PRINCIPLE',
       'explainable, or it does not ship',
-      '',
-      '$ _',
     ],
+    text: `Have a project, a role, or an idea worth prototyping? I read every message.`,
+    links: [
+      { label: 'email', value: 'hello@example.com', href: 'mailto:hello@example.com', icon: 'mail' },
+      { label: 'github', value: 'ayush6447', href: 'https://github.com/ayush6447', icon: 'github' },
+      {
+        label: 'linkedin',
+        value: 'ayushkumarjsr',
+        href: 'https://www.linkedin.com/in/ayushkumarjsr',
+        icon: 'linkedin',
+      },
+      { label: 'x', value: 'akrverse', href: 'https://x.com/akrverse', icon: 'x' },
+    ],
+  },
+  {
+    id: 'experience',
+    kind: 'Experience',
+    title: 'Where I have worked',
+    meta: 'Roles and the things they shipped',
+    text: `Short list, because I would rather go deep on a few problems than collect logos.`,
+    timeline: [
+      {
+        meta: '2025 — present',
+        title: 'Co-founder',
+        org: 'Ayuda',
+        detail:
+          'Building the product end to end — model, mobile client and the API between them.',
+      },
+      {
+        // TODO: replace with a real role
+        meta: '2025',
+        title: 'ML Intern — TODO',
+        org: 'TODO: company',
+        detail: 'TODO: one line on what you actually shipped there.',
+      },
+      {
+        // TODO: replace with a real role
+        meta: '2024',
+        title: 'Freelance — TODO',
+        org: 'TODO: client',
+        detail: 'TODO: what you built and what it was for.',
+      },
+    ],
+    chips: ['Applied ML', 'Flutter', 'FastAPI', 'Product'],
+  },
+  {
+    id: 'education',
+    kind: 'Education',
+    title: 'Where I studied',
+    meta: 'Computer science',
+    timeline: [
+      {
+        // TODO: replace with your institute and years
+        meta: 'TODO: 20XX — 20XX',
+        title: 'B.Tech, Computer Science & Engineering',
+        org: 'TODO: institute',
+        detail: 'TODO: coursework, thesis or anything worth naming.',
+      },
+      {
+        // TODO: replace with your school and years
+        meta: 'TODO: 20XX',
+        title: 'Class XII — Science',
+        org: 'TODO: school, Ranchi',
+        detail: 'TODO: board and result.',
+      },
+    ],
+  },
+  {
+    id: 'certifications',
+    kind: 'Certifications',
+    title: 'Certifications',
+    meta: 'Signed, dated, still useful',
+    text: `Kept short on purpose — only the ones whose material I actually use.`,
+    timeline: [
+      {
+        // TODO: replace with a real certificate
+        meta: 'TODO: 20XX',
+        title: 'TODO: certificate name',
+        org: 'TODO: issuer',
+        detail: 'TODO: what it covered.',
+      },
+      {
+        // TODO: replace with a real certificate
+        meta: 'TODO: 20XX',
+        title: 'TODO: certificate name',
+        org: 'TODO: issuer',
+        detail: 'TODO: what it covered.',
+      },
+    ],
+  },
+  {
+    id: 'achievements',
+    kind: 'Achievements',
+    title: 'Things that went well',
+    meta: 'Competitions, recognitions, shipped work',
+    timeline: [
+      {
+        // TODO: replace with a real placing
+        meta: 'TODO: 20XX',
+        title: 'TODO: hackathon or competition',
+        org: 'TODO: organiser',
+        detail: 'TODO: what you built and where you placed.',
+      },
+      {
+        // TODO: replace with a real recognition
+        meta: 'TODO: 20XX',
+        title: 'TODO: award or recognition',
+        org: 'TODO: awarding body',
+        detail: 'TODO: what it was for.',
+      },
+    ],
+    chips: ['TODO: fill these in'],
   },
   {
     id: 'chess',

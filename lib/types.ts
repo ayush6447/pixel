@@ -9,6 +9,25 @@ export type EntryLink = {
   label: string;
   value: string;
   href: string;
+  /** picks the icon on the terminal surface: mail, github, linkedin, x, web */
+  icon?: string;
+};
+
+/** A labelled cluster of chips — "FRONT-END", "CREATIVE / 3D"... */
+export type ChipGroup = {
+  title: string;
+  items: string[];
+};
+
+/** One dated row in a timeline: experience, education, certifications. */
+export type TimelineItem = {
+  /** left column — years, issuer, grade */
+  meta: string;
+  title: string;
+  /** organisation, board, issuing body */
+  org?: string;
+  detail?: string;
+  href?: string;
 };
 
 export type Entry = {
@@ -19,10 +38,22 @@ export type Entry = {
   title: string;
   /** line under the title — year, domain, status */
   meta: string;
+  /**
+   * Where this entry opens. 'sheet' is the right-hand drawer and is the
+   * default; 'terminal' is the centred window over the monitor.
+   */
+  surface?: 'sheet' | 'terminal';
+  /** square image shown beside the title on the sheet */
+  avatar?: { src: string; alt: string };
   /** paragraphs, separated by a blank line */
   text?: string;
   /** monospace terminal block, rendered before the text */
   term?: string[];
+  /** dated rows, rendered as a timeline under the text */
+  timeline?: TimelineItem[];
+  /** heading above the chip groups, e.g. "What I work with" */
+  groupsTitle?: string;
+  groups?: ChipGroup[];
   links?: EntryLink[];
   chips?: string[];
   cta?: { label: string; href: string };

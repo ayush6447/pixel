@@ -18,9 +18,9 @@ type RoomState = {
   night: boolean;
   toggleNight: () => void;
 
-  /** label shown in the caption bar at the bottom */
-  caption: string | null;
-  setCaption: (label: string | null) => void;
+  /** ambient loop; starts off because browsers block autoplay */
+  music: boolean;
+  toggleMusic: () => void;
 
   /** true until the visitor interacts — drives the idle pips */
   fresh: boolean;
@@ -47,7 +47,7 @@ function isDarkOutside(): boolean {
 export function RoomProvider({ children }: { children: ReactNode }) {
   const [openId, setOpenId] = useState<string | null>(null);
   const [night, setNight] = useState(false);
-  const [caption, setCaption] = useState<string | null>(null);
+  const [music, setMusic] = useState(false);
   const [fresh, setFresh] = useState(true);
 
   // Decided on the client so the server render stays deterministic.
@@ -65,6 +65,11 @@ export function RoomProvider({ children }: { children: ReactNode }) {
   const toggleNight = useCallback(() => {
     setFresh(false);
     setNight((n) => !n);
+  }, []);
+
+  const toggleMusic = useCallback(() => {
+    setFresh(false);
+    setMusic((m) => !m);
   }, []);
 
   useEffect(() => {
@@ -85,8 +90,17 @@ export function RoomProvider({ children }: { children: ReactNode }) {
   }, [openId, close]);
 
   const value = useMemo(
-    () => ({ openId, open, close, night, toggleNight, caption, setCaption, fresh }),
-    [openId, open, close, night, toggleNight, caption, fresh],
+    () => ({
+      openId,
+      open,
+      close,
+      night,
+      toggleNight,
+      music,
+      toggleMusic,
+      fresh,
+    }),
+    [openId, open, close, night, toggleNight, music, toggleMusic, fresh],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
