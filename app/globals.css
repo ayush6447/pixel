@@ -145,9 +145,17 @@ body {
 }
 .plate-num {
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 13px;
   font-weight: 700;
+  letter-spacing: 0.04em;
   fill: #b4231f;
+}
+.shield-sf {
+  font-family: var(--mono);
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  fill: #151920;
 }
 .poster-text {
   font-family: var(--mono);

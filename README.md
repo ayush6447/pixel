@@ -182,15 +182,19 @@ quiet.
 | Desk          | 286–454   | 196–228   |
 | Monitor       | 322–418   | 140–196   |
 | Lamp          | 344–398   | 0–96      |
-| F1 tapestry   | 420–466   | 58–180    |
-| Game poster   | 496–580   | 36–110    |
+| Racing poster | 468–538   | 30–108    |
+| Games poster  | 540–610   | 30–108    |
 | 3D printer    | 470–610   | 118–234   |
 
 The wall has a chair rail at y = 176 and wainscot below it, so anything hung on
 the wall wants to sit above that line.
 
-Free wall space for new pieces: above the shelf (y < 42) and the gap between the
-portrait and the lamp (x 282–342).
+The two posters hang as a pair over the printer bench. The racing one used to
+be a tapestry beside the monitor and was crowding it — the monitor, lamp, desk
+and sensor were all competing for the same patch of wall. Keep that stretch
+(x 400–460) clear.
+
+Free wall space for new pieces: above the shelf (y < 42).
 
 ## Accessibility
 

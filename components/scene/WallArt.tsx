@@ -3,123 +3,173 @@
 import Hotspot from '@/components/Hotspot';
 
 /**
- * The things hanging on the wall that aren't the portrait: a racing tapestry
- * beside the monitor, a game poster over the printer, and a weapon charm
- * dangling off the shelf.
+ * Renders a pixel map as rects. Rows are strings, '#' is on, anything else is
+ * off. Hand-plotting a horse as forty <rect> elements is unreadable; this way
+ * the drawing is legible in the source and easy to nudge.
+ */
+function PixelArt({
+  map,
+  x,
+  y,
+  scale = 2,
+  fill,
+}: {
+  map: string[];
+  x: number;
+  y: number;
+  scale?: number;
+  fill: string;
+}) {
+  const rects: React.ReactNode[] = [];
+
+  map.forEach((row, r) => {
+    let run = 0;
+    // Emit one rect per horizontal run instead of per pixel.
+    for (let c = 0; c <= row.length; c += 1) {
+      if (row[c] === '#') {
+        run += 1;
+        continue;
+      }
+      if (run) {
+        rects.push(
+          <rect
+            key={`${r}-${c}`}
+            x={x + (c - run) * scale}
+            y={y + r * scale}
+            width={run * scale}
+            height={scale}
+          />,
+        );
+        run = 0;
+      }
+    }
+  });
+
+  return <g fill={fill}>{rects}</g>;
+}
+
+/**
+ * Rearing horse, facing left, tail up the right side. 16 x 20.
  *
- * All three are fan art drawn from rectangles — a silhouette and a colour
- * scheme, not anybody's actual logo.
+ * The legibility trick at this size is the neck: keep it thin and sloping
+ * for four or five rows before it meets the withers. Merge it into the body
+ * any earlier and the whole thing reads as a dog.
+ */
+const HORSE = [
+  '.....##....##...',
+  '....###....##...',
+  '...####...###...',
+  '..#####...##....',
+  '.#####....##....',
+  '..####...###....',
+  '...####..##.....',
+  '...####..##.....',
+  '....####.##.....',
+  '....########....',
+  '...#########....',
+  '..##########....',
+  '.###########....',
+  '####.#######....',
+  '###...#####.....',
+  '##....##.##.....',
+  '#.....##.##.....',
+  '......##.##.....',
+  '.....###.##.....',
+  '....####.###....',
+];
+
+/**
+ * The wall above the printer bench, hung as a pair of framed posters, plus a
+ * weapon charm clipped to the shelf.
  *
- * The tapestry and poster are away from the shelf, so they take tone="none":
- * they lift on hover instead of growing a label.
+ * The racing poster started life as a tapestry beside the monitor and was
+ * crowding it — the monitor, lamp, desk and sensor were all fighting for the
+ * same patch of wall. Over here the two posters read as a set and that whole
+ * area went quiet.
+ *
+ * Both posters are fan art drawn from rectangles: silhouettes and colour
+ * schemes, not traced artwork.
+ *
+ * They are away from the shelf, so they take tone="none" — they lift on
+ * hover instead of growing a label.
  */
 export default function WallArt() {
   return (
     <>
-      {/* racing tapestry — hangs on the wall right of the monitor */}
+      {/* racing poster */}
       <Hotspot
         id="racing"
         label="Formula 1"
         tone="none"
-        hit={{ x: 420, y: 58, w: 46, h: 122 }}
-        ring={{ x: 422, y: 60, w: 42, h: 118 }}
-        pip={{ x: 466, y: 60 }}
+        hit={{ x: 468, y: 30, w: 70, h: 78 }}
+        ring={{ x: 469, y: 31, w: 68, h: 76 }}
+        pip={{ x: 538, y: 31 }}
       >
-        {/* rail and cloth */}
-        <rect x={420} y={60} width={46} height={3} className="s-edge" />
-        <rect x={422} y={63} width={42} height={112} className="s-hot" />
-        <rect x={422} y={63} width={42} height={112} fill="#B4231F" />
+        <rect x={470} y={32} width={66} height={74} className="s-light" />
+        <rect x={473} y={35} width={60} height={68} fill="#141019" />
 
-        {/* tricolore band */}
-        <rect x={422} y={63} width={14} height={5} className="s-leaf" />
-        <rect x={436} y={63} width={14} height={5} className="s-bone" />
-        <rect x={450} y={63} width={14} height={5} fill="#8E1A16" />
+        {/* red field with the tricolore across the top */}
+        <rect x={473} y={35} width={60} height={50} fill="#B4231F" />
+        <rect x={473} y={35} width={20} height={4} className="s-leaf" />
+        <rect x={493} y={35} width={20} height={4} className="s-bone" />
+        <rect x={513} y={35} width={20} height={4} fill="#8E1A16" />
 
-        {/* Car in side profile rather than a prancing horse — a horse is
-            unreadable at 30 units across, a single-seater silhouette is not. */}
-        <g fill="#151920">
-          {/* rear wing */}
-          <rect x={451} y={84} width={10} height={3} />
-          <rect x={454} y={87} width={3} height={5} />
-          {/* airbox and halo */}
-          <rect x={445} y={86} width={5} height={6} />
-          <rect x={438} y={89} width={8} height={3} />
-          {/* body, nose, front wing */}
-          <rect x={436} y={92} width={16} height={7} />
-          <rect x={428} y={94} width={9} height={5} />
-          <rect x={424} y={97} width={6} height={3} />
-          {/* floor */}
-          <rect x={427} y={99} width={30} height={2} />
-          {/* wheels */}
-          <rect x={429} y={99} width={9} height={9} />
-          <rect x={448} y={99} width={9} height={9} />
+        {/* shield */}
+        <g fill="#F5C518">
+          <rect x={490} y={42} width={26} height={28} />
+          <rect x={492} y={70} width={22} height={3} />
+          <rect x={495} y={73} width={16} height={3} />
+          <rect x={498} y={76} width={10} height={2} />
+          <rect x={501} y={78} width={4} height={2} />
         </g>
-        {/* rims */}
-        <g fill="#B4231F">
-          <rect x={432} y={102} width={3} height={3} />
-          <rect x={451} y={102} width={3} height={3} />
-        </g>
+        <PixelArt map={HORSE} x={495} y={44} scale={1} fill="#151920" />
 
-        {/* race number plate */}
-        <rect x={430} y={122} width={26} height={16} className="s-bone" />
-        <text x={443} y={134} className="plate-num" textAnchor="middle">
-          16
+        <rect x={473} y={85} width={60} height={18} fill="#141019" />
+        <text x={503} y={95} className="poster-text" textAnchor="middle">
+          SCUDERIA 44
         </text>
-
-        {/* chequered hem */}
-        <g>
-          <rect x={422} y={166} width={42} height={9} className="s-bone" />
-          <g fill="#151920">
-            <rect x={422} y={166} width={7} height={4.5} />
-            <rect x={436} y={166} width={7} height={4.5} />
-            <rect x={450} y={166} width={7} height={4.5} />
-            <rect x={429} y={170.5} width={7} height={4.5} />
-            <rect x={443} y={170.5} width={7} height={4.5} />
-            <rect x={457} y={170.5} width={7} height={4.5} />
-          </g>
-        </g>
+        <rect x={488} y={99} width={30} height={1.5} fill="#F5C518" />
       </Hotspot>
 
-      {/* game poster — above the printer */}
+      {/* games poster */}
       <Hotspot
         id="gaming"
         label="Games"
         tone="none"
-        hit={{ x: 496, y: 36, w: 84, h: 74 }}
-        ring={{ x: 498, y: 38, w: 80, h: 70 }}
-        pip={{ x: 580, y: 38 }}
+        hit={{ x: 540, y: 30, w: 70, h: 78 }}
+        ring={{ x: 541, y: 31, w: 68, h: 76 }}
+        pip={{ x: 610, y: 31 }}
       >
-        <rect x={498} y={38} width={80} height={70} className="s-light" />
-        <rect x={501} y={41} width={74} height={64} fill="#1E1622" />
+        <rect x={542} y={32} width={66} height={74} className="s-light" />
+        <rect x={545} y={35} width={60} height={68} fill="#1E1622" />
 
         {/* dusk sky */}
-        <rect x={501} y={41} width={74} height={30} fill="#C24A2A" />
-        <rect x={501} y={41} width={74} height={12} fill="#E9A13B" />
-        <circle cx={538} cy={57} r={9} fill="#FFD489" />
+        <rect x={545} y={35} width={60} height={32} fill="#C24A2A" />
+        <rect x={545} y={35} width={60} height={13} fill="#E9A13B" />
+        <circle cx={575} cy={52} r={9} fill="#FFD489" />
 
         {/* skyline */}
         <g fill="#241A2B">
-          <rect x={503} y={62} width={9} height={20} />
-          <rect x={514} y={56} width={7} height={26} />
-          <rect x={523} y={66} width={11} height={16} />
-          <rect x={536} y={59} width={8} height={23} />
-          <rect x={546} y={68} width={10} height={14} />
-          <rect x={558} y={62} width={7} height={20} />
-          <rect x={567} y={70} width={8} height={12} />
+          <rect x={547} y={58} width={8} height={22} />
+          <rect x={557} y={51} width={6} height={29} />
+          <rect x={565} y={62} width={10} height={18} />
+          <rect x={577} y={54} width={7} height={26} />
+          <rect x={586} y={64} width={9} height={16} />
+          <rect x={597} y={57} width={7} height={23} />
         </g>
         {/* palm */}
         <g fill="#171021">
-          <rect x={565} y={54} width={2} height={28} />
-          <rect x={559} y={52} width={7} height={2} />
-          <rect x={566} y={50} width={7} height={2} />
-          <rect x={562} y={49} width={4} height={2} />
+          <rect x={594} y={48} width={2} height={32} />
+          <rect x={588} y={46} width={7} height={2} />
+          <rect x={595} y={44} width={7} height={2} />
+          <rect x={591} y={43} width={4} height={2} />
         </g>
 
-        <rect x={501} y={82} width={74} height={23} fill="#141019" />
-        <text x={538} y={95} className="poster-text" textAnchor="middle">
+        <rect x={545} y={85} width={60} height={18} fill="#141019" />
+        <text x={575} y={95} className="poster-text" textAnchor="middle">
           LOS SANTOS
         </text>
-        <rect x={520} y={99} width={36} height={1.5} className="s-amber" />
+        <rect x={560} y={99} width={30} height={1.5} className="s-amber" />
       </Hotspot>
 
       {/* weapon charm, hanging off the shelf's right edge */}
