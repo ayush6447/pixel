@@ -34,7 +34,7 @@ export default function Hud() {
           : 'Jamshedpur, 2026 — everything in this room opens'}
       </div>
 
-      <div className="credit">© 2026 Ayush Kumar Singh</div>
+      <div className="credit">Ayushhh</div>
     </>
   );
 }
