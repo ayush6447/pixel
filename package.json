@@ -4,6 +4,7 @@
   "private": true,
   "description": "An interactive pixel-art room portfolio. Every object in the room opens something.",
   "scripts": {
+    "predev": "node scripts/clean-stale-build.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

@@ -138,10 +138,18 @@ switched on in an effect. Keep that pattern — `reactStrictMode` is on and IST
 
 ## Gotchas
 
-- **Never run `npm run build` while `npm run dev` is running.** Both write
-  `.next`, and the build replaces the chunks the dev server is serving — the
-  page then 404s its JS and silently stops hydrating, so every hotspot looks
-  broken. Stop the dev server first, or accept that you must restart it after.
+- **`next dev` and `next build` write incompatible `.next` directories.** Two
+  distinct failures come from mixing them:
+  - Building *while* dev is running replaces the chunks dev is serving; the
+    page 404s its JS and silently stops hydrating, so every hotspot looks
+    broken while the console looks nearly clean.
+  - Starting dev *on top of* a finished production build fails with
+    `Invariant: missing bootstrap script. This is a bug in Next.js` and a wall
+    of 500s on `/_next/static/chunks/fallback/*`. It is not a Next bug.
+
+  `predev` runs `scripts/clean-stale-build.mjs`, which deletes `.next` when it
+  finds a `BUILD_ID` (only a production build leaves one), so the second case
+  now self-heals. The first still requires stopping dev before you build.
 - CSS `transform` lengths on SVG elements resolve in *user units*, not screen
   pixels — that is why the music-note keyframes translate by room coordinates.
 - `assets/` holds the user's source media (the full-length mp3, a profile
