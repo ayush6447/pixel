@@ -183,19 +183,25 @@ export default function WallArt() {
         {/* clip and chain onto the shelf edge */}
         <rect x={209} y={45} width={5} height={3} className="s-edge" />
         <rect x={211} y={48} width={2} height={8} className="s-edge" />
-        {/* charm plate */}
-        <rect x={202} y={56} width={20} height={22} fill="#FF4655" />
-        <rect x={204} y={58} width={16} height={18} fill="#0F1923" />
-        {/* the three-prong mark, in blocks */}
+        {/* charm plate - Red border on Dark Charcoal background */}
+        <rect
+          x={201}
+          y={54}
+          width={22}
+          height={24}
+          fill="#0F1923"
+          stroke="#FF4655"
+          strokeWidth={1.5}
+          rx={1}
+        />
+
+        {/* Valorant Logo Mark (Red on Dark) */}
         <g fill="#FF4655">
-          <rect x={206} y={61} width={3} height={9} />
-          <rect x={215} y={61} width={3} height={9} />
-          <rect x={206} y={70} width={12} height={3} />
-          <rect x={210} y={64} width={4} height={6} />
+          {/* Left main arm */}
+          <polygon points="205,60 205,65 211,71 214,71 208,60" />
+          {/* Right wedge triangle */}
+          <polygon points="218,60 218,65 213,66" />
         </g>
-        {/* ascendant tick */}
-        <rect x={208} y={80} width={8} height={2} className="s-leaf" />
-        <rect x={210} y={82} width={4} height={2} className="s-leaf" />
       </Hotspot>
     </>
   );
