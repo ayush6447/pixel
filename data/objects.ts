@@ -12,7 +12,7 @@ export const OBJECTS: Entry[] = [
     id: 'about',
     kind: 'About',
     title: 'Ayush Kumar Singh',
-    meta: 'Ranchi, Jharkhand · India',
+    meta: 'Jamshedpur, Jharkhand · India',
     avatar: { src: '/pfp.jpg', alt: 'Ayush Kumar Singh' },
     text: `Computer science student, co-founder at Ayuda, and the person who built this room one rectangle at a time.
 
@@ -47,7 +47,7 @@ When the ground truth doesn't exist, I build the thing that collects it. That's 
     surface: 'terminal',
     term: [
       '$ whoami',
-      'ayush kumar singh — cse student, ranchi',
+      'ayush kumar singh — cse student, Jamshedpur',
       '',
       '$ cat focus.txt',
       'applied ml · flutter · computer vision',
@@ -61,7 +61,7 @@ When the ground truth doesn't exist, I build the thing that collects it. That's 
     ],
     text: `Have a project, a role, or an idea worth prototyping? I read every message.`,
     links: [
-      { label: 'email', value: 'hello@example.com', href: 'mailto:hello@example.com', icon: 'mail' },
+      { label: 'email', value: 'akr6447@gmail.com', href: 'mailto:akr6447@gmail.com', icon: 'mail' },
       { label: 'github', value: 'ayush6447', href: 'https://github.com/ayush6447', icon: 'github' },
       {
         label: 'linkedin',
@@ -232,7 +232,7 @@ This is the part of Vayumaan that made the rest possible. You can't train a hype
     meta: 'Usually replies within a day',
     text: `Open to internships, research collaborations, and problems that don't have a clean dataset yet.`,
     links: [
-      { label: 'Email', value: 'hello@example.com', href: 'mailto:hello@example.com' },
+      { label: 'Email', value: 'akr6447@gmail.com', href: 'mailto:akr6447@gmail.com' },
       { label: 'GitHub', value: 'ayush6447', href: 'https://github.com/ayush6447' },
       { label: 'LinkedIn', value: 'ayushkumarjsr', href: 'https://www.linkedin.com/in/ayushkumarjsr' },
       { label: 'X', value: 'akrverse', href: 'https://x.com/akrverse' },
