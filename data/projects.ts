@@ -64,27 +64,8 @@ The interesting part was the evaluation. The first strong numbers came from a le
     cta: { label: 'Repository', href: '#' },
   },
   {
-    id: 'blindassist',
-    x: 46,
-    shelf: 130,
-    w: 12,
-    fill: 's-light',
-    ink: '#F2F1EC',
-    spine: 'BLINDASSIST',
-    role: 'Computer vision, C++',
-    surface: 'book',
-    kind: 'Project',
-    title: 'BlindAssistant',
-    meta: '2025 · Computer vision',
-    text: `A native Windows tool that reads a single camera feed and speaks obstacles aloud. No GPU, no cloud round trip — background subtraction, HOG pedestrian detection, Kalman tracking and monocular depth cues, all running locally in C++.
-
-Deep learning would have been easier to write and worse to depend on. This has to work on a modest laptop, offline, every time.`,
-    chips: ['C++', 'OpenCV', 'MOG2', 'HOG', 'Kalman filter'],
-    cta: { label: 'Repository', href: '#' },
-  },
-  {
     id: 'flowtrack',
-    x: 60,
+    x: 46,
     shelf: 130,
     w: 11,
     fill: 's-bone',
@@ -99,6 +80,54 @@ Deep learning would have been easier to write and worse to depend on. This has t
 
 Built to feel like it shipped with the operating system rather than beside it.`,
     chips: ['Flutter', 'Kotlin', 'Firestore', 'HealthKit', 'Health Connect'],
+    cta: { label: 'Repository', href: '#' },
+  },
+  {
+    id: 'vox',
+    x: 59,
+    shelf: 130,
+    w: 10,
+    fill: 's-light',
+    ink: '#F2F1EC',
+    spine: 'VOX',
+    role: 'Vision and speech pipeline',
+    surface: 'book',
+    kind: 'Project',
+    title: 'VOX',
+    meta: '2026 · Accessibility',
+    text: `Sign language is a language, not a gesture alphabet, and most "translators" quietly assume otherwise — classifying isolated letters and calling it communication.
+
+VOX reads continuous signing from a webcam. MediaPipe lifts hand and pose landmarks, a sequence model over those landmarks handles the part that actually carries meaning — movement over time — and the output goes out as text and speech.
+
+Landmarks rather than raw pixels, because the model shouldn't have to learn what a hand is, or care what the room behind it looks like.`,
+    chips: [
+      'React',
+      'WebRTC',
+      'MediaPipe',
+      'FastAPI',
+      'TensorFlow / PyTorch',
+      'LSTM / Transformer',
+      'gTTS',
+    ],
+    cta: { label: 'Repository', href: '#' },
+  },
+  {
+    id: 'hydrosense',
+    x: 60,
+    shelf: 170,
+    w: 13,
+    fill: 's-leaf',
+    ink: '#F2F1EC',
+    spine: 'HYDROSENSE',
+    role: 'Full stack, forecasting',
+    surface: 'book',
+    kind: 'Project',
+    title: 'HydroSenseAI',
+    meta: '2026 · AgriTech',
+    text: `Hydroponics fails quietly. pH drifts, TDS climbs, and by the time a plant looks wrong the run is already lost. That makes it a forecasting problem more than a monitoring one — a dashboard that only tells you the current reading is telling you the wrong thing.
+
+HydroSense reads the sensor stream and predicts where the parameters are heading, forecasts yield, and flags faults and disease. XGBoost handles the tabular signals, an LSTM handles the drift, and the two disagreeing is itself worth an alarm.`,
+    chips: ['Next.js', 'React', 'Tailwind', 'FastAPI', 'XGBoost', 'LSTM'],
     cta: { label: 'Repository', href: '#' },
   },
   {
