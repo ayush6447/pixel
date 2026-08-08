@@ -8,6 +8,7 @@ export default function Monitor() {
     <Hotspot
       id="terminal"
       label="Terminal — read the intro"
+      tone="none"
       hit={{ x: 322, y: 140, w: 96, h: 56 }}
       ring={{ x: 320, y: 138, w: 100, h: 54 }}
       pip={{ x: 416, y: 138 }}

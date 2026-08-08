@@ -172,6 +172,40 @@ When the ground truth doesn't exist, I build the thing that collects it. That's 
     chips: ['TODO: fill these in'],
   },
   {
+    id: 'racing',
+    kind: 'Off the clock',
+    title: 'Formula 1',
+    meta: 'Ferrari, for better or worse',
+    text: `Sundays are spoken for. I follow the sport for the part most people skip — the engineering argument happening underneath the race.
+
+An F1 team is a control problem with a deadline: incomplete telemetry, a tyre model that drifts, and a pit call you have to make three laps before you know if it was right. Strategy is inference under uncertainty with someone else's championship on the line.
+
+Ferrari, which means I have made peace with being wrong about outcomes and right about process.`,
+    chips: ['Scuderia Ferrari', 'Strategy nerd', 'Sunday shot'],
+  },
+  {
+    id: 'gaming',
+    kind: 'Off the clock',
+    title: 'Games',
+    meta: 'Open worlds and tight gunplay',
+    text: `GTA V for the world, Call of Duty for the mechanics. Between them they cover both halves of what I like about games — one is a place you inhabit, the other is a system you get measurably better at.
+
+The open world taught me more about design than most design writing: a good map tells you where to go without a single instruction. This room is a small, flat attempt at the same trick.`,
+    chips: ['GTA V', 'Call of Duty', 'Open worlds'],
+  },
+  {
+    id: 'valorant',
+    kind: 'Off the clock',
+    title: 'Valorant',
+    meta: 'Ascendant · buddy on the shelf',
+    text: `Ascendant. Hard-earned, and defended less often than I'd like.
+
+The rank is mostly a lesson in error analysis. You do not climb by aiming better; you climb by noticing which specific decision keeps costing rounds, then refusing to make it again. That is the same loop as debugging a model that looks fine on average and fails on one slice.
+
+Utility before aim. Information before entry. It transfers.`,
+    chips: ['Ascendant', 'Utility first', 'VOD review'],
+  },
+  {
     id: 'chess',
     kind: 'Off the clock',
     title: 'Chess',

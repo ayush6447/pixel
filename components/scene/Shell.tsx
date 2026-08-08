@@ -25,6 +25,14 @@ export default function Shell() {
       <rect x={X} y={-BLEED} width={W} height={HORIZON + BLEED} className="s-wall" />
       <rect x={X} y={-BLEED} width={W} height={HORIZON + BLEED} fill="url(#dots)" />
       <rect id="dayLight" x={X} y={-BLEED} width={W} height={120 + BLEED} fill="url(#dayG)" />
+      {/* chair rail and wainscot — gives the wall a horizon to sit against
+          instead of one flat field of dots */}
+      <rect x={X} y={176} width={W} height={2} className="s-shade" />
+      <rect x={X} y={178} width={W} height={46} className="s-wainscot" />
+      <g className="s-shade">
+        <rect x={X} y={182} width={W} height={1} />
+        <rect x={X} y={220} width={W} height={1} />
+      </g>
       <rect x={X} y={224} width={W} height={8} className="s-shade" />
       <rect x={X} y={HORIZON} width={W} height={38 + BLEED} className="s-floor" />
       <rect x={X} y={HORIZON} width={W} height={3} className="s-floor2" />

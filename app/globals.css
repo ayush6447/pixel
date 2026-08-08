@@ -7,6 +7,7 @@
   --wall: #e9e7e0;
   --wall-dot: #d8d5ca;
   --wall-shade: #dedbd1;
+  --wainscot: #e2dfd4;
   --floor: #20242b;
   --floor-2: #2a2f38;
   --dark: #1b1f26;
@@ -32,6 +33,7 @@ body.night {
   --wall: #151920;
   --wall-dot: #1d222b;
   --wall-shade: #11151b;
+  --wainscot: #12161d;
   --floor: #0c0e13;
   --floor-2: #14171e;
   --dark: #0f1218;
@@ -72,6 +74,16 @@ body {
 .stage {
   position: fixed;
   inset: 0;
+  /* Camera push-in. --zx/--zy come from the hotspot you clicked, so the
+     room leans into that object rather than the middle of the screen. */
+  transform-origin: var(--zx, 50%) var(--zy, 50%);
+  transition: transform 0.62s cubic-bezier(0.22, 0.61, 0.36, 1),
+    filter 0.62s ease;
+  will-change: transform;
+}
+.stage.is-zoomed {
+  transform: scale(1.5);
+  filter: blur(2.5px) saturate(0.85);
 }
 .stage svg {
   width: 100%;
@@ -104,6 +116,7 @@ body {
 
 .s-wall { fill: var(--wall); }
 .s-shade { fill: var(--wall-shade); }
+.s-wainscot { fill: var(--wainscot); }
 .s-dot { fill: var(--wall-dot); }
 .s-floor { fill: var(--floor); }
 .s-floor2 { fill: var(--floor-2); }
@@ -129,6 +142,19 @@ body {
   font-size: 5px;
   letter-spacing: 0.14em;
   fill: var(--muted);
+}
+.plate-num {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  fill: #b4231f;
+}
+.poster-text {
+  font-family: var(--mono);
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  fill: #e9a13b;
 }
 .screen-text {
   font-family: var(--mono);
@@ -156,6 +182,21 @@ body {
 @keyframes blink {
   0%, 55% { opacity: 1; }
   56%, 100% { opacity: 0; }
+}
+
+/* ------------------------------------------------------------
+   LAMP CORD
+   Yanks down, overshoots on the way back, settles. Duration is
+   mirrored by PULL_MS in scene/Lamp.tsx.
+   ------------------------------------------------------------ */
+.cord.is-pulling {
+  animation: cordPull 0.42s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+@keyframes cordPull {
+  0%   { transform: translateY(0); }
+  35%  { transform: translateY(7px); }
+  65%  { transform: translateY(-2px); }
+  100% { transform: translateY(0); }
 }
 
 /* ------------------------------------------------------------
@@ -251,6 +292,18 @@ body {
 }
 .hot:focus-visible .ring {
   stroke-dasharray: 3 2;
+}
+
+/* Objects away from the shelf carry no label, so hovering has to say
+   something. fill-box puts the origin on the object, not the whole canvas. */
+.hot--lift {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.25s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.hot--lift:hover,
+.hot--lift:focus-visible {
+  transform: scale(1.06);
 }
 
 /* idle pips, until the first interaction */
@@ -709,6 +762,235 @@ body.night .mark {
 }
 
 /* ============================================================
+   BOOK SPREAD
+   What a shelf book opens into. The right page swings out of the
+   gutter on entry, which is what makes it read as a book rather
+   than one more modal.
+   ============================================================ */
+.spread {
+  position: fixed;
+  z-index: 31;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 2.5rem 1rem 1.5rem;
+  opacity: 0;
+  pointer-events: none;
+  perspective: 2000px;
+  transition: opacity 0.3s ease;
+}
+.spread.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.spread__close {
+  position: absolute;
+  top: 1.4rem;
+  right: 1.6rem;
+  z-index: 2;
+  background: rgba(12, 15, 20, 0.75);
+}
+
+.spread__book {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: min(62rem, 100%);
+  max-height: min(34rem, calc(100vh - 8rem));
+  background: #f4f1e8;
+  color: #23262d;
+  border-radius: 4px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+  transform-style: preserve-3d;
+}
+/* the gutter */
+.spread__book::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.16),
+    rgba(0, 0, 0, 0.04) 45%,
+    rgba(0, 0, 0, 0.16)
+  );
+}
+.spread__book {
+  position: relative;
+}
+
+.page {
+  padding: 2.2rem 2.4rem;
+  overflow-y: auto;
+}
+.page--right {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  transform-origin: left center;
+  backface-visibility: hidden;
+}
+/* the opening swing, and the two page turns */
+.spread.is-open .page--right {
+  animation: pageOpen 0.62s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+.spread__book.is-turning-next .page--right {
+  animation: pageOpen 0.38s ease-out;
+}
+.spread__book.is-turning-prev .page--left {
+  animation: pageBack 0.38s ease-out;
+}
+@keyframes pageOpen {
+  from { transform: rotateY(-92deg); }
+  to   { transform: rotateY(0); }
+}
+@keyframes pageBack {
+  from { transform: rotateY(92deg); }
+  to   { transform: rotateY(0); }
+}
+.page--left {
+  transform-origin: right center;
+  backface-visibility: hidden;
+}
+
+.page h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(1.6rem, 3vw, 2.15rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: #1c1f25;
+}
+.page__kicker {
+  margin: 0.5rem 0 0 !important;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #b4531f;
+}
+.page p {
+  margin: 1.1rem 0 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #3c414a;
+}
+
+.page__plate {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 9rem;
+  background: #1b1f26;
+  border-radius: 3px;
+}
+/* The book's own spine, blown up, standing in for a screenshot. The swatch
+   class (s-amber, s-bone…) is an SVG `fill` rule, so paint the block from
+   the same variable here and let inline `color` carry the ink. */
+.plate__spine {
+  font-family: var(--mono);
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: 0.26em;
+  padding: 0.9rem 1.4rem 0.9rem 1.6rem;
+  border-radius: 2px;
+}
+.plate__spine.s-bone { background: var(--bone); }
+.plate__spine.s-amber { background: var(--amber); }
+.plate__spine.s-indigo { background: var(--indigo); }
+.plate__spine.s-light { background: var(--light); }
+.plate__spine.s-mid { background: var(--mid); }
+.plate__spine.s-leaf { background: var(--leaf); }
+.plate__spine.s-muted { background: var(--muted); }
+
+.page__facts {
+  display: flex;
+  gap: 2.5rem;
+  margin: 0;
+}
+.page__facts dt {
+  font-family: var(--mono);
+  font-size: 0.625rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #8a8f98;
+}
+.page__facts dd {
+  margin: 0.25rem 0 0;
+  font-size: 0.95rem;
+  color: #23262d;
+}
+.page--right .chips {
+  margin-top: 0;
+}
+.page--right .chip--pill {
+  color: #4a4f58;
+  border-color: #cdc7b8;
+}
+.page--right .out {
+  margin-top: auto;
+  align-self: flex-start;
+  color: #23262d;
+  border-color: #cdc7b8;
+}
+.page--right .out:hover {
+  color: #b4531f;
+  border-color: #b4531f;
+}
+
+.pager {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--bone);
+}
+.pager button {
+  all: unset;
+  cursor: pointer;
+  width: 2.4rem;
+  height: 2.4rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid #39404c;
+  border-radius: 50%;
+  background: rgba(12, 15, 20, 0.8);
+  color: var(--bone);
+  transition: color 0.18s ease, border-color 0.18s ease;
+}
+.pager button:hover {
+  color: var(--amber);
+  border-color: var(--amber);
+}
+.pager button:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+}
+
+@media (max-width: 780px) {
+  .spread__book {
+    grid-template-columns: 1fr;
+    max-height: calc(100vh - 9rem);
+  }
+  .spread__book::after {
+    display: none;
+  }
+  .page {
+    padding: 1.5rem 1.4rem;
+  }
+}
+
+/* ============================================================
    TERMINAL WINDOW
    The monitor's surface. Centred over the screen it opens from,
    with desktop-window chrome so it reads as a different kind of
@@ -874,5 +1156,20 @@ body.night .mark {
   *::after {
     animation-duration: 0.001ms !important;
     transition-duration: 0.001ms !important;
+  }
+  /* Killing the duration would leave these snapping to their end state,
+     which is worse than not doing them. Drop the effects instead. */
+  .stage.is-zoomed {
+    transform: none;
+    filter: none;
+  }
+  .hot--lift:hover,
+  .hot--lift:focus-visible {
+    transform: none;
+  }
+  .spread.is-open .page--right,
+  .spread__book.is-turning-next .page--right,
+  .spread__book.is-turning-prev .page--left {
+    animation: none;
   }
 }

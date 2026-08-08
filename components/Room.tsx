@@ -2,6 +2,7 @@
 
 import { useRef } from 'react';
 import { useParallax } from '@/hooks/useParallax';
+import { useRoom } from '@/lib/room-context';
 import Shell from './scene/Shell';
 import Bookshelf from './scene/Bookshelf';
 import Desk from './scene/Desk';
@@ -13,6 +14,7 @@ import ChessTable from './scene/ChessTable';
 import DeskItems from './scene/DeskItems';
 import Speaker from './scene/Speaker';
 import Printer from './scene/Printer';
+import WallArt from './scene/WallArt';
 
 /**
  * The whole room lives on a 620 x 270 grid. Keep every coordinate an
@@ -24,10 +26,24 @@ import Printer from './scene/Printer';
  */
 export default function Room() {
   const stage = useRef<HTMLDivElement>(null);
+  const { openId, focus } = useRoom();
   useParallax(stage);
 
   return (
-    <div className="stage" ref={stage}>
+    <div
+      className={`stage${openId ? ' is-zoomed' : ''}`}
+      ref={stage}
+      style={
+        focus
+          ? ({
+              // transform-origin for the push-in; .stage is fixed inset 0,
+              // so the hotspot's viewport centre is already stage-local.
+              ['--zx' as string]: `${focus.x}px`,
+              ['--zy' as string]: `${focus.y}px`,
+            } as React.CSSProperties)
+          : undefined
+      }
+    >
       <svg
         viewBox="0 0 620 270"
         preserveAspectRatio="xMidYMid meet"
@@ -77,6 +93,7 @@ export default function Room() {
           <DeskItems />
           <Chair />
           <ChessTable />
+          <WallArt />
           <Printer />
           {/* last, so the music notes float over the shelf they rise out of */}
           <Speaker />

@@ -8,6 +8,7 @@ export default function Portrait() {
     <Hotspot
       id="about"
       label="About me"
+      tone="none"
       hit={{ x: 228, y: 96, w: 52, h: 62 }}
       ring={{ x: 226, y: 94, w: 56, h: 66 }}
       pip={{ x: 278, y: 94 }}

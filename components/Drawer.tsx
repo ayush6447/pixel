@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useRoom } from '@/lib/room-context';
 import { getEntry } from '@/data/registry';
 import TerminalWindow from './TerminalWindow';
+import BookSpread from './BookSpread';
 
 /**
  * The right-hand sheet. Renders whichever Entry is open, unless that Entry
@@ -16,8 +17,9 @@ export default function Drawer() {
   const closeRef = useRef<HTMLButtonElement>(null);
   const bodyRef = useRef<HTMLDivElement>(null);
 
-  const onTerminal = entry?.surface === 'terminal';
-  const isOpen = Boolean(entry) && !onTerminal;
+  // The sheet is the fallback surface; the other two claim their own entries.
+  const elsewhere = entry?.surface === 'terminal' || entry?.surface === 'book';
+  const isOpen = Boolean(entry) && !elsewhere;
 
   useEffect(() => {
     if (isOpen) {
@@ -29,6 +31,7 @@ export default function Drawer() {
   return (
     <>
       <TerminalWindow />
+      <BookSpread />
 
       <div
         className={`scrim${entry ? ' is-on' : ''}`}
@@ -56,7 +59,7 @@ export default function Drawer() {
         </div>
 
         <div className="drawer__body" ref={bodyRef}>
-          {entry && !onTerminal && (
+          {entry && !elsewhere && (
             <>
               <div className="drawer__head">
                 {entry.avatar && (

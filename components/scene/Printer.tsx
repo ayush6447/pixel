@@ -17,6 +17,7 @@ export default function Printer() {
     <Hotspot
       id="embryogen"
       label="3D printer — printing an EmbryoGen part"
+      tone="none"
       hit={{ x: 470, y: 118, w: 140, h: 116 }}
       ring={{ x: 472, y: 120, w: 136, h: 112 }}
       pip={{ x: 611, y: 120 }}

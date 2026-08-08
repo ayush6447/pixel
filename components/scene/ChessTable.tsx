@@ -8,6 +8,7 @@ export default function ChessTable() {
     <Hotspot
       id="chess"
       label="Chess"
+      tone="none"
       hit={{ x: 214, y: 186, w: 58, h: 42 }}
       ring={{ x: 215, y: 186, w: 56, h: 20 }}
       pip={{ x: 272, y: 188 }}

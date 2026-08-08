@@ -80,8 +80,26 @@ Don't move it back into context.
 
 The measuring effect also depends on `label`, which is what lets a hotspot that
 renames itself mid-hover (lamp, speaker) update its own tooltip without the
-pointer leaving. `tone="pill"` is the amber callout and belongs to the speaker
-alone — it signals a toggle, not a panel.
+pointer leaving.
+
+`tone` decides how a hotspot announces itself, and the split is deliberate:
+`'plain'` for objects **on the shelf**, `'pill'` for the speaker **alone** (it
+means "toggle", not "panel"), `'none'` for everything away from the shelf —
+those show no label and lift on hover instead. Adding a label to an off-shelf
+object undoes the decluttering; adding a second `'pill'` empties out what the
+pill means.
+
+Note `prefers-reduced-motion`: zeroing the duration would leave the zoom, the
+lift and the page-turn *snapped to their end state*, which is worse than not
+running them. The media query explicitly sets `transform: none` on those rather
+than relying on the blanket duration override.
+
+**Three surfaces, one registry.** `Entry.surface` routes where an entry opens:
+`'sheet'` (default, `Drawer.tsx`), `'terminal'` (`TerminalWindow.tsx`, monitor
+only), `'book'` (`BookSpread.tsx`, all six projects, pages through `PROJECTS`).
+`Drawer` is the fallback and must keep excluding the other two, or you get two
+panels at once. Clicking also pushes the camera: `Hotspot.activate` passes its
+screen centre to `open()`, and `.stage` scales/blurs toward `--zx`/`--zy`.
 
 **One id → Entry registry.** `data/projects.ts` (book spines, `Book extends
 Entry` with `x`/`shelf`/`w` layout fields) and `data/objects.ts` (everything

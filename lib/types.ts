@@ -40,9 +40,12 @@ export type Entry = {
   meta: string;
   /**
    * Where this entry opens. 'sheet' is the right-hand drawer and is the
-   * default; 'terminal' is the centred window over the monitor.
+   * default; 'terminal' is the centred window over the monitor; 'book' is
+   * the two-page spread the shelf books open into.
    */
-  surface?: 'sheet' | 'terminal';
+  surface?: 'sheet' | 'terminal' | 'book';
+  /** shown on the right page of the book spread */
+  role?: string;
   /** square image shown beside the title on the sheet */
   avatar?: { src: string; alt: string };
   /** paragraphs, separated by a blank line */

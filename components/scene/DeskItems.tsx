@@ -9,6 +9,7 @@ export default function DeskItems() {
       <Hotspot
         id="contact"
         label="Contact"
+        tone="none"
         hit={{ x: 296, y: 178, w: 20, h: 20 }}
         ring={{ x: 297, y: 180, w: 18, h: 17 }}
         pip={{ x: 316, y: 179 }}
@@ -21,6 +22,7 @@ export default function DeskItems() {
       <Hotspot
         id="sensor"
         label="Vayumaan Nano air sensor"
+        tone="none"
         hit={{ x: 418, y: 180, w: 28, h: 18 }}
         ring={{ x: 419, y: 182, w: 26, h: 16 }}
         pip={{ x: 444, y: 181 }}

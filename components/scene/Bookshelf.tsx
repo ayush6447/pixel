@@ -29,31 +29,19 @@ export default function Bookshelf() {
       </g>
       <rect x={28} y={222} width={180} height={6} className="s-light" />
 
-      {/* plant */}
+      {/* plant — the only dressing left on the bottom shelf. The mug and the
+          flat book stack went; four hotspots plus six spines was already a
+          busy case, and the eye had nowhere to rest. */}
       <g>
-        <rect x={112} y={196} width={14} height={10} className="s-amber" />
-        <rect x={110} y={193} width={18} height={3} className="s-hot" />
-        <rect x={118} y={180} width={2} height={14} className="s-leaf" />
-        <rect x={112} y={176} width={6} height={2} className="s-leaf" />
-        <rect x={110} y={178} width={4} height={2} className="s-leaf" />
-        <rect x={120} y={172} width={6} height={2} className="s-leaf" />
-        <rect x={124} y={174} width={4} height={4} className="s-leaf" />
-        <rect x={114} y={184} width={4} height={2} className="s-leaf" />
-        <rect x={120} y={186} width={5} height={2} className="s-leaf" />
-      </g>
-
-      {/* flat stack */}
-      <g>
-        <rect x={46} y={200} width={34} height={2} className="s-bone" />
-        <rect x={46} y={197} width={34} height={2} className="s-indigo" />
-        <rect x={48} y={194} width={30} height={2} className="s-muted" />
-      </g>
-
-      {/* mug */}
-      <g>
-        <rect x={150} y={196} width={10} height={10} className="s-bone" />
-        <rect x={160} y={199} width={3} height={4} className="s-bone" />
-        <rect x={152} y={198} width={6} height={2} className="s-amber" />
+        <rect x={142} y={196} width={14} height={10} className="s-amber" />
+        <rect x={140} y={193} width={18} height={3} className="s-hot" />
+        <rect x={148} y={180} width={2} height={14} className="s-leaf" />
+        <rect x={142} y={176} width={6} height={2} className="s-leaf" />
+        <rect x={140} y={178} width={4} height={2} className="s-leaf" />
+        <rect x={150} y={172} width={6} height={2} className="s-leaf" />
+        <rect x={154} y={174} width={4} height={4} className="s-leaf" />
+        <rect x={144} y={184} width={4} height={2} className="s-leaf" />
+        <rect x={150} y={186} width={5} height={2} className="s-leaf" />
       </g>
 
       {PROJECTS.map((book) => (

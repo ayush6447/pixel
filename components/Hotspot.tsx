@@ -17,11 +17,15 @@ type Props = {
   /** the little amber dot that pulses until first interaction */
   pip?: { x: number; y: number };
   /**
-   * 'pill' is the amber callout with the pixel notch. Reserved for toggles —
-   * the speaker is the only one — so it reads as "this does something"
-   * rather than "this opens a panel".
+   * How this hotspot announces itself on hover.
+   *   'plain' — outlined label. Objects *on the shelf* only.
+   *   'pill'  — amber callout with the notch. The speaker toggle, alone.
+   *   'none'  — no label at all; the object lifts slightly instead. Used by
+   *             everything away from the shelf, which would otherwise litter
+   *             the room with floating text.
+   * The aria-label is unaffected either way, so screen readers lose nothing.
    */
-  tone?: 'pill' | 'plain';
+  tone?: 'pill' | 'plain' | 'none';
   /** override the default "open the drawer" behaviour (the lamp uses this) */
   onActivate?: () => void;
   children: ReactNode;
@@ -59,7 +63,7 @@ export default function Hotspot({
    *     costs one getBoundingClientRect per frame and no render.
    */
   useEffect(() => {
-    if (!shown) return;
+    if (!shown || tone === 'none') return;
 
     let frame = 0;
 
@@ -96,14 +100,20 @@ export default function Hotspot({
     };
   }, [shown, label, tone]);
 
+  /** The camera zooms toward whatever you clicked, so hand it the centre. */
   const activate = () => {
-    if (onActivate) onActivate();
-    else if (id) open(id);
+    if (onActivate) {
+      onActivate();
+      return;
+    }
+    if (!id) return;
+    const r = hitRef.current?.getBoundingClientRect();
+    open(id, r ? { x: r.left + r.width / 2, y: r.top + r.height / 2 } : undefined);
   };
 
   return (
     <g
-      className="hot"
+      className={`hot${tone === 'none' ? ' hot--lift' : ''}`}
       role="button"
       tabIndex={0}
       aria-label={label}

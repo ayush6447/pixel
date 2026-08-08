@@ -125,22 +125,34 @@ If your object needs to *do* something rather than open a panel, pass
 `onActivate` instead of `id` — that's how the lamp toggles night mode and the
 speaker toggles the music.
 
-## Two panels, two tooltips
+## Three surfaces
 
-An Entry opens in the **right-hand sheet** by default. Set `surface: 'terminal'`
-and it opens in the **centred window** instead — traffic lights, shell prompt,
-contact channels as cards. Only the monitor uses it, and that's the point: the
-window is what sitting down at the machine looks like.
+An Entry opens in the **right-hand sheet** by default. `surface: 'terminal'`
+opens the **centred window** — traffic lights, shell prompt, contact channels
+as cards; only the monitor uses it. `surface: 'book'` opens the **two-page
+spread**, which every shelf book uses and which pages through all six projects
+with the arrows or the ← → keys.
+
+Whichever surface it is, clicking pushes the camera at the thing you clicked:
+the hotspot hands `open()` its screen centre, and `.stage` scales and blurs
+toward that point. It is the same gesture every time, so the room always tells
+you which object the panel came out of.
 
 The sheet grows to fit whatever the Entry carries — `avatar`, `text`,
 `timeline` (dated rows, used by experience / education / certifications),
 `groups` (labelled chip clusters, used by About), `links`, `chips`, `cta`.
 
-Tooltips split the same way. Every object gets the quiet outlined label, which
-prefers to sit below it. The amber pill with the pixel notch is reserved for the
-speaker via `tone="pill"`, so the loud style always means *this toggles
-something* rather than *this opens a panel*. Keep it that way — the moment a
-second object uses the pill, it stops meaning anything.
+## Labels, and where they aren't
+
+Objects **on the shelf** get a quiet outlined label on hover. The speaker gets
+the amber pill with the pixel notch (`tone="pill"`), and nothing else ever
+should — the loud style means *this toggles something*, and a second user of it
+would make it mean nothing.
+
+Everything **away from the shelf** takes `tone="none"`: no label at all, just a
+slight lift on hover. A dozen captions floating over the wall was noise, and the
+shelf is where the room actually wants you to read. The `aria-label` is
+unaffected in all three cases, so nothing is lost to a screen reader.
 
 ## Sound
 
@@ -164,15 +176,21 @@ quiet.
 | — trophy      | 100–126   | 140–172   |
 | — speaker     | 170–202   | 142–172   |
 | — briefcase   | 80–110    | 184–208   |
+| Valorant buddy| 198–224   | 42–86     |
 | Portrait      | 228–280   | 96–158    |
 | Chess table   | 216–270   | 186–228   |
 | Desk          | 286–454   | 196–228   |
 | Monitor       | 322–418   | 140–196   |
 | Lamp          | 344–398   | 0–96      |
+| F1 tapestry   | 420–466   | 58–180    |
+| Game poster   | 496–580   | 36–110    |
 | 3D printer    | 470–610   | 118–234   |
 
-Free wall space for new pieces: above the shelf (y < 42), the strip between the
-shelf and the portrait (x 208–228), and above the printer (y < 118).
+The wall has a chair rail at y = 176 and wainscot below it, so anything hung on
+the wall wants to sit above that line.
+
+Free wall space for new pieces: above the shelf (y < 42) and the gap between the
+portrait and the lamp (x 282–342).
 
 ## Accessibility
 

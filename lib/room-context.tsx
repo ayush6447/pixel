@@ -10,10 +10,17 @@ import {
   type ReactNode,
 } from 'react';
 
+/** Viewport-pixel point the camera pushes into when a panel opens. */
+export type Focus = { x: number; y: number };
+
 type RoomState = {
   openId: string | null;
-  open: (id: string) => void;
+  /** `at` is the object's screen centre — the camera zooms toward it */
+  open: (id: string, at?: Focus) => void;
   close: () => void;
+
+  /** survives the close transition so the camera can pull back smoothly */
+  focus: Focus | null;
 
   night: boolean;
   toggleNight: () => void;
@@ -46,6 +53,7 @@ function isDarkOutside(): boolean {
 
 export function RoomProvider({ children }: { children: ReactNode }) {
   const [openId, setOpenId] = useState<string | null>(null);
+  const [focus, setFocus] = useState<Focus | null>(null);
   const [night, setNight] = useState(false);
   const [music, setMusic] = useState(false);
   const [fresh, setFresh] = useState(true);
@@ -55,11 +63,13 @@ export function RoomProvider({ children }: { children: ReactNode }) {
     if (isDarkOutside()) setNight(true);
   }, []);
 
-  const open = useCallback((id: string) => {
+  const open = useCallback((id: string, at?: Focus) => {
     setFresh(false);
+    if (at) setFocus(at);
     setOpenId(id);
   }, []);
 
+  // Keep `focus` on close: the zoom-out has to run from where it zoomed in.
   const close = useCallback(() => setOpenId(null), []);
 
   const toggleNight = useCallback(() => {
@@ -94,13 +104,14 @@ export function RoomProvider({ children }: { children: ReactNode }) {
       openId,
       open,
       close,
+      focus,
       night,
       toggleNight,
       music,
       toggleMusic,
       fresh,
     }),
-    [openId, open, close, night, toggleNight, music, toggleMusic, fresh],
+    [openId, open, close, focus, night, toggleNight, music, toggleMusic, fresh],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
