@@ -46,7 +46,7 @@ lib/
   tip-store.ts      tooltip position, deliberately outside React context
   types.ts          Entry, Book, Rect, ChipGroup, TimelineItem
 public/
-  ambient.mp3       the loop the speaker plays
+  *.mp3             the three tracks the speaker picks from
   pfp.jpg           the portrait on the About sheet
 ```
 
@@ -156,13 +156,25 @@ unaffected in all three cases, so nothing is lost to a screen reader.
 
 ## Sound
 
-The speaker on top of the bookshelf plays `public/ambient.mp3` on a loop and
-puffs music notes while it runs. Swap the track by replacing that file.
+The speaker on the shelf plays one of the tracks in `data/tracks.ts`, picked at
+random per visit, and puffs music notes while it runs. A snackbar names the
+track for two seconds when it starts. Add or swap tracks by editing that file
+and dropping the mp3 in `public/`.
 
 It starts muted, and it has to: browsers refuse to autoplay audio without a
-gesture, so the first click is what actually starts it. If the file is missing
-the play promise is swallowed — the notes still drift, the room just stays
-quiet.
+gesture, so the first click is what actually starts it. If a file is missing the
+play promise is swallowed — the notes still drift, the room just stays quiet.
+
+The pick happens in an effect, not during render — a server-rendered random
+choice would disagree with the client's and break hydration. Same reason night
+mode resolves after mount.
+
+## The mark
+
+`components/Logo.tsx` holds the spider as a 34 × 43 pixel map and draws it as
+merged rects, so it inherits `currentColor`, stays crisp at any size, and costs
+about a kilobyte instead of a 46 KB PNG. `app/icon.svg` is generated from the
+*same* map — if the source art changes, regenerate both together or they drift.
 
 ## Room coordinates
 

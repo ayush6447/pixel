@@ -1,5 +1,6 @@
 'use client';
 
+import { pickTrack, type Track } from '@/data/tracks';
 import {
   createContext,
   useCallback,
@@ -29,6 +30,9 @@ type RoomState = {
   music: boolean;
   toggleMusic: () => void;
 
+  /** this visit's track. null until the client picks one. */
+  track: Track | null;
+
   /** true until the visitor interacts — drives the idle pips */
   fresh: boolean;
 };
@@ -56,12 +60,17 @@ export function RoomProvider({ children }: { children: ReactNode }) {
   const [focus, setFocus] = useState<Focus | null>(null);
   const [night, setNight] = useState(false);
   const [music, setMusic] = useState(false);
+  const [track, setTrack] = useState<Track | null>(null);
   const [fresh, setFresh] = useState(true);
 
   // Decided on the client so the server render stays deterministic.
   useEffect(() => {
     if (isDarkOutside()) setNight(true);
   }, []);
+
+  // Random per visit, and client-side for the same reason as night mode:
+  // a server-rendered pick would differ from the client's and fail hydration.
+  useEffect(() => setTrack(pickTrack()), []);
 
   const open = useCallback((id: string, at?: Focus) => {
     setFresh(false);
@@ -109,9 +118,10 @@ export function RoomProvider({ children }: { children: ReactNode }) {
       toggleNight,
       music,
       toggleMusic,
+      track,
       fresh,
     }),
-    [openId, open, close, focus, night, toggleNight, music, toggleMusic, fresh],
+    [openId, open, close, focus, night, toggleNight, music, toggleMusic, track, fresh],
   );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

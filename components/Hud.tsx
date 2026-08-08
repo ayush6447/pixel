@@ -3,6 +3,7 @@
 import { useRoom } from '@/lib/room-context';
 import { useTip } from '@/lib/tip-store';
 import { useIstClock } from '@/hooks/useIstClock';
+import Logo from './Logo';
 
 /**
  * Wordmark, clock, hint and credit. Everything outside the SVG except
@@ -17,12 +18,8 @@ export default function Hud() {
   return (
     <>
       <div className="mark">
-        <span className="cube" aria-hidden="true">
-          {Array.from({ length: 9 }, (_, i) => (
-            <i key={i} />
-          ))}
-        </span>
-        AKRVERSE
+        <Logo className="mark__logo" />
+        AKR
       </div>
 
       <div className="meta">
