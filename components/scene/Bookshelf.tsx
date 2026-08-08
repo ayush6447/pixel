@@ -1,0 +1,72 @@
+import Book from './Book';
+import { PROJECTS } from '@/data/projects';
+
+/**
+ * The case itself plus the non-interactive dressing.
+ * Shelf boards: y = 90, 130, 170, 206. Interior runs x 38..198.
+ */
+export default function Bookshelf() {
+  return (
+    <g>
+      {/* carcass */}
+      <rect x={28} y={42} width={180} height={6} className="s-light" />
+      <rect x={30} y={48} width={176} height={180} className="s-dark" />
+      <rect x={36} y={52} width={164} height={172} className="s-mid" />
+      <rect x={38} y={54} width={160} height={170} className="s-dark" />
+
+      <g className="s-light">
+        <rect x={36} y={90} width={164} height={4} />
+        <rect x={36} y={130} width={164} height={4} />
+        <rect x={36} y={170} width={164} height={4} />
+        <rect x={36} y={206} width={164} height={4} />
+      </g>
+      <g className="s-mid">
+        <rect x={36} y={94} width={164} height={1} />
+        <rect x={36} y={134} width={164} height={1} />
+        <rect x={36} y={174} width={164} height={1} />
+        <rect x={36} y={210} width={164} height={1} />
+      </g>
+      <rect x={28} y={222} width={180} height={6} className="s-light" />
+
+      {/* speaker */}
+      <g>
+        <rect x={176} y={146} width={20} height={24} className="s-light" />
+        <rect x={178} y={148} width={16} height={20} className="s-dark" />
+        <circle cx={186} cy={160} r={5} className="s-amber" />
+        <circle cx={186} cy={160} r={2} className="s-dark" />
+        <rect x={181} y={151} width={10} height={2} className="s-mid" />
+      </g>
+
+      {/* plant */}
+      <g>
+        <rect x={112} y={196} width={14} height={10} className="s-amber" />
+        <rect x={110} y={193} width={18} height={3} className="s-hot" />
+        <rect x={118} y={180} width={2} height={14} className="s-leaf" />
+        <rect x={112} y={176} width={6} height={2} className="s-leaf" />
+        <rect x={110} y={178} width={4} height={2} className="s-leaf" />
+        <rect x={120} y={172} width={6} height={2} className="s-leaf" />
+        <rect x={124} y={174} width={4} height={4} className="s-leaf" />
+        <rect x={114} y={184} width={4} height={2} className="s-leaf" />
+        <rect x={120} y={186} width={5} height={2} className="s-leaf" />
+      </g>
+
+      {/* flat stack */}
+      <g>
+        <rect x={46} y={200} width={34} height={2} className="s-bone" />
+        <rect x={46} y={197} width={34} height={2} className="s-indigo" />
+        <rect x={48} y={194} width={30} height={2} className="s-muted" />
+      </g>
+
+      {/* mug */}
+      <g>
+        <rect x={150} y={196} width={10} height={10} className="s-bone" />
+        <rect x={160} y={199} width={3} height={4} className="s-bone" />
+        <rect x={152} y={198} width={6} height={2} className="s-amber" />
+      </g>
+
+      {PROJECTS.map((book) => (
+        <Book key={book.id} book={book} />
+      ))}
+    </g>
+  );
+}
