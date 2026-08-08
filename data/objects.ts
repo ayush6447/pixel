@@ -22,20 +22,20 @@ When the ground truth doesn't exist, I build the thing that collects it. That's 
     groupsTitle: 'What I work with',
     groups: [
       {
-        title: 'Machine learning',
-        items: ['PyTorch', 'TensorFlow Lite', 'Vision transformers', 'Grad-CAM'],
+        title: 'FRONT-END',
+        items: ['Flutter', 'React 19', 'Next.js', 'TypeScript', 'Tailwind', 'SCSS'],
       },
       {
-        title: 'Computer vision',
-        items: ['OpenCV', 'C++', 'Kalman filter', 'HOG'],
+        title: 'CREATIVE / 3D',
+        items: ['Computer vision', 'OpenCV', 'PyTorch', 'C++', 'WebGL', 'Grad-CAM'],
       },
       {
-        title: 'Product',
-        items: ['Flutter', 'React 19', 'FastAPI', 'Express 5'],
+        title: 'BACK-END & DATA',
+        items: ['FastAPI', 'Node.js', 'Python', 'Supabase', 'Firestore', 'PostgreSQL', 'SQLite'],
       },
       {
-        title: 'Data & hardware',
-        items: ['MongoDB', 'Supabase', 'USB-C sensors', 'Embedded C'],
+        title: 'PRODUCT & PLATFORM',
+        items: ['Applied ML', 'Embedded', 'USB-C Hardware', 'IoT', 'Custom software'],
       },
     ],
   },

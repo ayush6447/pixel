@@ -19,8 +19,8 @@ export default function Monitor() {
       <rect x={322} y={140} width={96} height={50} className="s-mid" />
       <rect x={325} y={143} width={90} height={42} className="s-dark" />
       <rect x={328} y={146} width={84} height={36} fill="#0E1116" />
-      <text x={336} y={162} className="screen-text">$ whoami</text>
-      <rect x={356} y={169} width={5} height={6} className="s-hot blink" />
+      <text x={336} y={164} className="screen-text">$ whoami</text>
+      <rect x={364} y={158} width={5} height={6} className="s-hot blink" />
       <rect x={404} y={186} width={4} height={2} className="s-amber" />
     </Hotspot>
   );
