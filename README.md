@@ -194,8 +194,8 @@ about a kilobyte instead of a 46 KB PNG. `app/icon.svg` is generated from the
 | Desk          | 286–454   | 196–228   |
 | Monitor       | 322–418   | 140–196   |
 | Lamp          | 344–398   | 0–96      |
-| Racing poster | 468–538   | 30–108    |
-| Games poster  | 540–610   | 30–108    |
+| Racing poster | 470–536   | 22–106    |
+| Games poster  | 542–608   | 22–106    |
 | 3D printer    | 470–610   | 118–234   |
 
 The wall has a chair rail at y = 176 and wainscot below it, so anything hung on
