@@ -20,6 +20,7 @@ npm run dev
 Open http://localhost:3000.
 
 ## How it fits together
+
 ```
 app/
   layout.tsx        fonts, metadata, <RoomProvider>
