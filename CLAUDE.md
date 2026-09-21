@@ -96,7 +96,7 @@ than relying on the blanket duration override.
 
 **Three surfaces, one registry.** `Entry.surface` routes where an entry opens:
 `'sheet'` (default, `Drawer.tsx`), `'terminal'` (`TerminalWindow.tsx`, monitor
-only), `'book'` (`BookSpread.tsx`, all six projects, pages through `PROJECTS`).
+only), `'book'` (`BookSpread.tsx`, all eight projects, pages through `PROJECTS`).
 `Drawer` is the fallback and must keep excluding the other two, or you get two
 panels at once. Clicking also pushes the camera: `Hotspot.activate` passes its
 screen centre to `open()`, and `.stage` scales/blurs toward `--zx`/`--zy`.

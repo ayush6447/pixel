@@ -130,7 +130,7 @@ speaker toggles the music.
 An Entry opens in the **right-hand sheet** by default. `surface: 'terminal'`
 opens the **centred window** — traffic lights, shell prompt, contact channels
 as cards; only the monitor uses it. `surface: 'book'` opens the **two-page
-spread**, which every shelf book uses and which pages through all six projects
+spread**, which every shelf book uses and which pages through all eight projects
 with the arrows or the ← → keys.
 
 Whichever surface it is, clicking pushes the camera at the thing you clicked:

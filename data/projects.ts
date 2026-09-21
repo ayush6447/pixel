@@ -112,6 +112,29 @@ Landmarks rather than raw pixels, because the model shouldn't have to learn what
     cta: { label: 'Repository', href: '#' },
   },
   {
+    id: 'blind',
+    x: 71,
+    shelf: 130,
+    w: 12,
+    fill: 's-indigo',
+    ink: '#F2F1EC',
+    spine: 'BLIND',
+    role: 'Multi-agent system & safety layer',
+    surface: 'book',
+    kind: 'Project',
+    title: 'BLIND',
+    meta: '2026 · Assistive navigation',
+    text: `Detecting an obstacle and avoiding one are different problems. Knowing a bollard sits three metres ahead is not the same as knowing whether you are about to walk into it — that depends on how fast you are closing on it, and a bounding box does not say.
+
+BLIND splits the job across agents. YOLOv8 finds objects, a Kalman filter tracks them between frames and turns the jitter into a velocity, and time-to-collision physics reduces that velocity to the only number a walking user needs: how long until this matters. Distance ranks obstacles badly; time ranks them correctly.
+
+The safety layer is Rust on purpose. It decides whether to interrupt someone mid-step, which is no place for a collector to pause or an index to run off the end.
+
+Built for Smart India Hackathon 2026.`,
+    chips: ['YOLOv8', 'Kalman filter', 'Time-to-collision', 'Rust', 'Multi-agent'],
+    cta: { label: 'Repository', href: '#' },
+  },
+  {
     id: 'hydrosense',
     x: 60,
     shelf: 170,
