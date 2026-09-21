@@ -82,10 +82,15 @@ When the ground truth doesn't exist, I build the thing that collects it. That's 
       },
       {
         meta: 'Jul 2026 — present',
+        title: 'Vocational Trainee',
+        org: 'Tata Steel · Jamshedpur · Hybrid',
+      },
+      {
+        meta: 'Jul 2026 — Sep 2026',
         title: 'AI/ML and Full-stack Development Intern',
         org: 'Briskon Technologies Pvt Ltd · Remote',
         detail:
-          'Internship. Applied ML alongside the web work that has to carry it.',
+          'Fake image detection and spam classification on Google Cloud — image authenticity analysis, automated triage, and the ML workflows that had to scale underneath both.',
       },
       {
         meta: 'Sep 2025 — present',
@@ -101,7 +106,7 @@ When the ground truth doesn't exist, I build the thing that collects it. That's 
         detail: 'Design for campus events and community material.',
       },
     ],
-    chips: ['Product', 'Applied ML', 'Full-stack', 'Public speaking'],
+    chips: ['Product', 'Applied ML', 'Full-stack', 'Google Cloud', 'Public speaking'],
   },
   {
     id: 'education',
@@ -182,6 +187,16 @@ When the ground truth doesn't exist, I build the thing that collects it. That's 
     title: 'Things that went well',
     meta: 'Competitions, recognitions, shipped work',
     timeline: [
+      {
+        meta: 'Sep 2026',
+        title: 'SOA Ideathon 2026 — runner-up',
+        org: "Siksha 'O' Anusandhan · Faculty of Engineering & Technology (ITER)",
+        detail: 'Second prize with team GENIX — ₹20,000.',
+        image: {
+          src: '/soa-ideathon.jpg',
+          alt: 'Team GENIX holding the SOA Ideathon 2026 second prize cheque.',
+        },
+      },
       {
         meta: 'Jan 2026',
         title: '24-Hour Hackathon',

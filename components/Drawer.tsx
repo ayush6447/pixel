@@ -115,6 +115,15 @@ export default function Drawer() {
                         </h3>
                         {row.org && <span className="timeline__org">{row.org}</span>}
                         {row.detail && <p>{row.detail}</p>}
+                        {row.image && (
+                          <Image
+                            className="timeline__shot"
+                            src={row.image.src}
+                            alt={row.image.alt}
+                            width={1280}
+                            height={1118}
+                          />
+                        )}
                       </div>
                     </li>
                   ))}

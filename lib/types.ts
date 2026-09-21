@@ -28,6 +28,8 @@ export type TimelineItem = {
   org?: string;
   detail?: string;
   href?: string;
+  /** optional photo under the row — proof, not decoration */
+  image?: { src: string; alt: string };
 };
 
 export type Entry = {

@@ -779,6 +779,14 @@ body.night .mark {
   font-size: 0.95rem;
   line-height: 1.55;
 }
+.timeline__shot {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 0.8rem;
+  border: 1px solid #2c3440;
+  border-radius: 10px;
+}
 
 @media (max-width: 560px) {
   .timeline li {
